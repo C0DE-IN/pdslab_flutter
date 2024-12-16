@@ -1,0 +1,41 @@
+ [
+    {
+        "imgSrc": "/src/assets/logos/ResearchGate.svg",
+        "link": "https://www.researchgate.net/profile/Patrick-Dsilva",
+        "color":"#00D5AE",
+        "txtColor":"#FFFFFF",
+        "text":"Research Gate",
+        "id":"ResearchGate"
+    },
+    {
+        "imgSrc": "/src/assets/logos/Google_Scholar_logo.svg",
+        "link": "https://scholar.google.co.in/citations?user=kbHYuDUAAAAJ",
+        "color":"#FFFFFF",
+        "txtColor":"#767676",
+        "text":"Google Scholar",
+        "id":"GoogleScholar"
+    },
+    {
+        "imgSrc": "/src/assets/logos/LinkedIn_Logo.svg",
+        "link": "https://in.linkedin.com/in/patrick-d-silva-5a174321",
+        "color":"#0A66C2",
+        "txtColor":"#FFFFFF",
+        "id":"Linkedin"
+    },
+    {
+        "imgSrc": "/src/assets/logos/Facebook.svg",
+        "link": "https://www.facebook.com/MolecularChaperoneLab",
+        "color":"#4867AA",
+        "txtColor":"#FFFFFF",
+        "text":"Facebook",
+        "id":"Facebook"
+    },
+    {
+        "imgSrc": "/src/assets/logos/Twitter_old.svg",
+        "link": "https://twitter.com/pdslab_iisc",
+        "color":"#FFFFFF",
+        "txtColor":"#2FCDFF",
+        "text":"Twitter",
+        "id":"Twitter"
+    }
+]
