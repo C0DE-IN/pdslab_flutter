@@ -3,6 +3,9 @@ import '../components/image_carousel.dart';
 import '../components/news_section.dart';
 import '../components/recent_publications.dart';
 import '../components/research_area_section.dart';
+import '../components/about_section.dart';
+import '../components/model_section.dart';
+import '../components/footer.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key, required this.title});
@@ -87,9 +90,15 @@ class _HomeState extends State<Home> {
           const SizedBox(height: 32),
           const NewsSection(),
           const SizedBox(height: 32),
+          const AboutSection(),
+          const SizedBox(height: 32),
           const RecentPublications(),
           const SizedBox(height: 20),
           const ResearchAreaSection(),
+          const SizedBox(height: 32),
+          const ModelSection(),
+          const SizedBox(height: 32),
+          const Footer(),
         ],
       ),
     );

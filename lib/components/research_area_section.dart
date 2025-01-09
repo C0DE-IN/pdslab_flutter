@@ -86,7 +86,7 @@ class _ResearchAreaSectionState extends State<ResearchAreaSection> {
 
   Widget _buildResearchCard(ResearchAreaModel area) {
     return Container(
-      width: 300,
+      width: 350, // Increased width for better text display
       margin: const EdgeInsets.all(8),
       child: Card(
         clipBehavior: Clip.antiAlias,
@@ -116,18 +116,16 @@ class _ResearchAreaSectionState extends State<ResearchAreaSection> {
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
               ),
             ),
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                child: Text(
-                  area.text,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                  maxLines: 4,
-                  overflow: TextOverflow.ellipsis,
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                  child: Text(
+                    area.text,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
                 ),
               ),
             ),
@@ -176,7 +174,7 @@ class _ResearchAreaSectionState extends State<ResearchAreaSection> {
           ),
         ),
         SizedBox(
-          height: 400,
+          height: 500,
           child: MouseRegion(
             onEnter: (_) => _startAutoScroll(),
             onExit: (_) => _stopAutoScroll(),

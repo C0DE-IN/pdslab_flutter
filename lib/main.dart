@@ -3,6 +3,7 @@ import 'package:pdslab/providers/theme_provider.dart';
 import 'package:pdslab/routes.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:pdslab/components/background_container.dart';
 
 final _router = createRouter();
 
@@ -41,6 +42,11 @@ class _MyAppState extends State<MyApp> {
           darkTheme: darkMode,
           routerConfig: _router,
           debugShowCheckedModeBanner: false,
+          builder: (context, child) {
+            return BackgroundContainer(
+              child: child ?? const SizedBox(),
+            );
+          },
         );
       },
     );

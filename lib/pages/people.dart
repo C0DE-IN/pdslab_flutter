@@ -12,6 +12,7 @@ class PeoplePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -108,6 +109,8 @@ class PeoplePage extends StatelessWidget {
   }
 
   Widget _buildPiCard(BuildContext context, PiModel piData) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return InkWell(
       onTap: () {
         final formattedName =
@@ -115,6 +118,9 @@ class PeoplePage extends StatelessWidget {
         context.go('/people/$formattedName');
       },
       child: Card(
+        color: isDarkMode
+            ? Colors.grey[850]?.withAlpha(180)
+            : Colors.white.withAlpha(180),
         child: Column(
           children: [
             Stack(
@@ -164,36 +170,38 @@ class PeoplePage extends StatelessWidget {
   }
 
   Widget _buildCardGrid(BuildContext context, List<PeopleModel> data) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return GridView.builder(
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: MediaQuery.of(context).size.width > 600 ? 3 : 1,
-        childAspectRatio: 1,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+        childAspectRatio: 0.75,
+        mainAxisSpacing: 16.0,
+        crossAxisSpacing: 16.0,
       ),
       itemCount: data.length,
-      itemBuilder: (BuildContext context, index) {
-        return InkWell(
-          onTap: () {
-            final formattedName =
-                data[index].name.replaceAll(' ', '-').toLowerCase();
-            context.go('/people/$formattedName');
-          },
-          child: Card(
-            child: Column(
-              children: [
-                Stack(
+      itemBuilder: (context, index) {
+        return Card(
+          color: isDarkMode
+              ? Colors.grey[850]?.withAlpha(180)
+              : Colors.white.withAlpha(180),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: Stack(
+                  fit: StackFit.expand,
                   children: [
                     Image.asset(
                       data[index].imgSrc!,
-                      fit: BoxFit.fitWidth,
-                      height: 320.0,
-                      width: 280.0,
-                      alignment: Alignment.topCenter,
+                      fit: BoxFit.cover,
                     ),
                     Positioned(
-                      bottom: 8.0,
-                      left: 16.0,
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
                       child: Container(
                         color: Colors.black54,
                         padding: const EdgeInsets.symmetric(
@@ -208,15 +216,21 @@ class PeoplePage extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            Text(data[index].position)
+                            Text(
+                              data[index].position,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                              ),
+                            ),
                           ],
                         ),
                       ),
                     ),
                   ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         );
       },
@@ -225,43 +239,55 @@ class PeoplePage extends StatelessWidget {
 
   Widget _buildAlumniTable(
       BuildContext context, List<AlumniModel> alumniData, String title) {
-    if (title == 'Alumnus') {
-      return DataTable(
-        columns: const [
-          DataColumn(label: Text('Name')),
-          DataColumn(label: Text('Graduation Year')),
-          DataColumn(label: Text('Position')),
-          DataColumn(label: Text('Place')),
-        ],
-        rows: alumniData.map((alumnus) {
-          return DataRow(
-            cells: [
-              DataCell(Text(alumnus.name)),
-              DataCell(Text(alumnus.passout.toString())),
-              DataCell(Text(alumnus.position)),
-              DataCell(Text(alumnus.place)),
-            ],
-          );
-        }).toList(),
-      );
-    } else {
-      return DataTable(
-        columns: const [
-          DataColumn(label: Text('Name')),
-          DataColumn(label: Text('Position')),
-          DataColumn(label: Text('Place')),
-        ],
-        rows: alumniData.map((staff) {
-          return DataRow(
-            cells: [
-              DataCell(Text(staff.name)),
-              DataCell(Text(staff.position)),
-              DataCell(Text(staff.place)),
-            ],
-          );
-        }).toList(),
-      );
-    }
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
+    return Container(
+      margin: const EdgeInsets.all(8.0),
+      decoration: BoxDecoration(
+        color: isDarkMode
+            ? Colors.grey[850]?.withAlpha(180)
+            : Colors.white.withAlpha(180),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: title == 'Alumnus'
+            ? DataTable(
+                columns: const [
+                  DataColumn(label: Text('Name')),
+                  DataColumn(label: Text('Graduation Year')),
+                  DataColumn(label: Text('Position')),
+                  DataColumn(label: Text('Place')),
+                ],
+                rows: alumniData.map((alumnus) {
+                  return DataRow(
+                    cells: [
+                      DataCell(Text(alumnus.name)),
+                      DataCell(Text(alumnus.passout.toString())),
+                      DataCell(Text(alumnus.position)),
+                      DataCell(Text(alumnus.place)),
+                    ],
+                  );
+                }).toList(),
+              )
+            : DataTable(
+                columns: const [
+                  DataColumn(label: Text('Name')),
+                  DataColumn(label: Text('Position')),
+                  DataColumn(label: Text('Place')),
+                ],
+                rows: alumniData.map((staff) {
+                  return DataRow(
+                    cells: [
+                      DataCell(Text(staff.name)),
+                      DataCell(Text(staff.position)),
+                      DataCell(Text(staff.place)),
+                    ],
+                  );
+                }).toList(),
+              ),
+      ),
+    );
   }
 
   Future<List<PeopleModel>> _loadJsonData(String path) async {

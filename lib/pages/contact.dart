@@ -19,58 +19,79 @@ class ContactPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    
     return Scaffold(
-      appBar: AppBar(title: const Text('Contact Information')),
-      body: FutureBuilder<ContactModel>(
-        future: loadContactData(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (snapshot.hasData) {
-            final contact = snapshot.data!;
-            return LayoutBuilder(
-              builder: (context, constraints) {
-                final isDesktop = constraints.maxWidth > 800;
-                return SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: isDesktop
-                        ? Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: _buildContactCard(context, contact),
-                              ),
-                              const SizedBox(width: 16),
-                              Expanded(
-                                child: _buildMapCard(context, contact),
-                              ),
-                            ],
-                          )
-                        : Column(
-                            children: [
-                              _buildContactCard(context, contact),
-                              const SizedBox(height: 16),
-                              _buildMapCard(context, contact),
-                            ],
-                          ),
-                  ),
-                );
-              },
-            );
-          } else {
-            return const Center(child: Text('No data available'));
-          }
-        },
+      backgroundColor: Colors.transparent,
+      appBar: AppBar(
+        backgroundColor: isDarkMode 
+            ? Colors.grey[900]
+            : Colors.white,
+        title: const Text('Contact Information'),
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+          color: Colors.transparent,
+        ),
+        child: FutureBuilder<ContactModel>(
+          future: loadContactData(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(child: Text('Error: ${snapshot.error}'));
+            } else if (snapshot.hasData) {
+              final contact = snapshot.data!;
+              return LayoutBuilder(
+                builder: (context, constraints) {
+                  final isDesktop = constraints.maxWidth > 800;
+                  return SingleChildScrollView(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.transparent,
+                      ),
+                      padding: const EdgeInsets.all(16.0),
+                      child: isDesktop
+                          ? Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  child: _buildContactCard(context, contact),
+                                ),
+                                const SizedBox(width: 16),
+                                Expanded(
+                                  child: _buildMapCard(context, contact),
+                                ),
+                              ],
+                            )
+                          : Column(
+                              children: [
+                                _buildContactCard(context, contact),
+                                const SizedBox(height: 16),
+                                _buildMapCard(context, contact),
+                              ],
+                            ),
+                    ),
+                  );
+                },
+              );
+            } else {
+              return const Center(child: Text('No data available'));
+            }
+          },
+        ),
       ),
     );
   }
 
   Widget _buildContactCard(BuildContext context, ContactModel contact) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    
     return Card(
       elevation: 4,
+      color: isDarkMode 
+          ? Colors.grey[900]
+          : Colors.white,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -100,11 +121,14 @@ class ContactPage extends StatelessWidget {
     );
   }
 
-  // Custom Iframe Widget
-
   Widget _buildMapCard(BuildContext context, ContactModel contact) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    
     return Card(
       elevation: 4,
+      color: isDarkMode 
+          ? Colors.grey[900]
+          : Colors.white,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

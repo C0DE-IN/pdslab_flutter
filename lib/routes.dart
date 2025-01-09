@@ -32,7 +32,7 @@ final GoRouter _router = GoRouter(
         ),
         GoRoute(
           path: '/research',
-          builder: (context, state) => ResearchPage(),
+          builder: (context, state) => const ResearchPage(),
         ),
         GoRoute(
           path: '/people',
