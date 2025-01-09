@@ -1,0 +1,13 @@
+ {
+    "name": "Dr. Patrick D' Silva",
+    "position": "Professor",
+    "labName": "Mitochondrial Biology Lab",
+    "labNumber": "FA-07",
+    "department": "Department of Biochemistry",
+    "division": "New Biological Sciences",
+    "institute": "Indian Institute of Science",
+    "address": ["Bangalore", "560012", "Karnataka", "India"],
+    "email": "patrick@iisc.ac.in",
+    "tel": "+91-80-2293-2821",
+    "map":"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3887.1904084403236!2d77.56127180949933!3d13.023543487243566!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae17d838ecee71%3A0xecf0058890955d12!2sDepartment%20of%20Biochemstry!5e0!3m2!1sen!2sin!4v1734421488341!5m2!1sen!2sin"
+ }

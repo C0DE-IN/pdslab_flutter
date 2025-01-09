@@ -2,7 +2,7 @@
     {
         "title":"Dr.",
         "name": "Rachayeeta Deb",
-        "imgSrc": "/src/assets/images/people/rachayeeta.jpg",
+        "imgSrc": "lib/assets/images/people/rachayeeta.jpg",
         "position": "Post Doctoral Fellowship",
         "email": "",
         "credentials": [

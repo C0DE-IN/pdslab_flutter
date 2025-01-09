@@ -5,10 +5,15 @@ import 'package:pdslab/pages/contact.dart';
 import 'package:pdslab/pages/funds.dart';
 import 'package:pdslab/pages/gallery.dart';
 import 'package:pdslab/pages/home.dart';
+import 'package:pdslab/pages/individual.dart';
 import 'package:pdslab/pages/people.dart';
 import 'package:pdslab/pages/publications.dart';
 import 'package:pdslab/pages/reource.dart';
 import 'package:pdslab/pages/research.dart';
+
+class AppRoutes {
+  static const String people = '/people/:name';
+}
 
 final GoRouter _router = GoRouter(
   routes: [
@@ -27,21 +32,25 @@ final GoRouter _router = GoRouter(
         ),
         GoRoute(
           path: '/research',
-          builder: (context, state) => const Research(
-            title: 'Research',
-          ),
+          builder: (context, state) => ResearchPage(),
         ),
         GoRoute(
           path: '/people',
-          builder: (context, state) => const People(
-            title: 'People',
-          ),
+          builder: (context, state) => const PeoplePage(),
+        ),
+        GoRoute(
+          path: AppRoutes.people,
+          builder: (context, state) {
+            final name = state.pathParameters['name'];
+            if (name == null) {
+              throw Exception('Name parameter is required');
+            }
+            return Individual(name: name);
+          },
         ),
         GoRoute(
           path: '/publications',
-          builder: (context, state) => const Publications(
-            title: 'Publications',
-          ),
+          builder: (context, state) => const PublicationsPage(),
         ),
         GoRoute(
           path: '/resource',
@@ -51,21 +60,15 @@ final GoRouter _router = GoRouter(
         ),
         GoRoute(
           path: '/funds',
-          builder: (context, state) => const Funds(
-            title: 'Funds',
-          ),
+          builder: (context, state) => const FundsPage(),
         ),
         GoRoute(
           path: '/gallery',
-          builder: (context, state) => const Gallery(
-            title: 'Gallery',
-          ),
+          builder: (context, state) => const GalleryPage(),
         ),
         GoRoute(
           path: '/contact',
-          builder: (context, state) => const Contact(
-            title: 'Contact',
-          ),
+          builder: (context, state) => const ContactPage(),
         ),
       ],
     ),

@@ -2,7 +2,7 @@
 [
     {
         "name": "Shravya B",
-        "imgSrc": "/src/assets/images/people/shravya.jpg",
+        "imgSrc": "lib/assets/images/people/shravya.jpg",
         "position": "Integrated PhD Student",
         "email": "",
         "credentials": [
@@ -11,7 +11,7 @@
     },
     {
         "name": "Surya Kiran V J",
-        "imgSrc": "/src/assets/images/people/surya.jpg",
+        "imgSrc": "lib/assets/images/people/surya.jpg",
         "position": "Integrated PhD Student",
         "email": "",
         "credentials": [

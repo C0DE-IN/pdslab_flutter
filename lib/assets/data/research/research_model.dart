@@ -8,10 +8,21 @@ class ResearchModel with _$ResearchModel {
   factory ResearchModel({
     required String imgSrc,
     required String heading,
-    required List<Text> text,
+    required List<TextItem> textItems,
   }) = _ResearchModel;
   factory ResearchModel.fromJson(Map<String, dynamic> json) =>
       _$ResearchModelFromJson(json);
+}
+
+@freezed
+class TextItem with _$TextItem {
+  factory TextItem({
+    String? title,
+    required String content,
+    TextList? list,
+  }) = _TextItem;
+  factory TextItem.fromJson(Map<String, dynamic> json) =>
+      _$TextItemFromJson(json);
 }
 
 @freezed
@@ -22,14 +33,4 @@ class TextList with _$TextList {
   }) = _TextList;
   factory TextList.fromJson(Map<String, dynamic> json) =>
       _$TextListFromJson(json);
-}
-
-@freezed
-class Text with _$Text {
-  factory Text({
-    String? title,
-    required String content,
-    TextList? list,
-  }) = _Text;
-  factory Text.fromJson(Map<String, dynamic> json) => _$TextFromJson(json);
 }

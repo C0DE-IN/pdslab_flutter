@@ -22,6 +22,7 @@ NewsModel _$NewsModelFromJson(Map<String, dynamic> json) {
 mixin _$NewsModel {
   String? get column => throw _privateConstructorUsedError;
   String get headline => throw _privateConstructorUsedError;
+  @JsonKey(name: 'place_date')
   String? get placeDate => throw _privateConstructorUsedError;
   String get link => throw _privateConstructorUsedError;
   String get logo => throw _privateConstructorUsedError;
@@ -47,7 +48,7 @@ abstract class $NewsModelCopyWith<$Res> {
   $Res call(
       {String? column,
       String headline,
-      String? placeDate,
+      @JsonKey(name: 'place_date') String? placeDate,
       String link,
       String logo,
       String id,
@@ -127,7 +128,7 @@ abstract class _$$NewsModelImplCopyWith<$Res>
   $Res call(
       {String? column,
       String headline,
-      String? placeDate,
+      @JsonKey(name: 'place_date') String? placeDate,
       String link,
       String logo,
       String id,
@@ -200,7 +201,7 @@ class _$NewsModelImpl implements _NewsModel {
   _$NewsModelImpl(
       {this.column,
       required this.headline,
-      this.placeDate,
+      @JsonKey(name: 'place_date') this.placeDate,
       required this.link,
       required this.logo,
       required this.id,
@@ -215,6 +216,7 @@ class _$NewsModelImpl implements _NewsModel {
   @override
   final String headline;
   @override
+  @JsonKey(name: 'place_date')
   final String? placeDate;
   @override
   final String link;
@@ -274,7 +276,7 @@ abstract class _NewsModel implements NewsModel {
   factory _NewsModel(
       {final String? column,
       required final String headline,
-      final String? placeDate,
+      @JsonKey(name: 'place_date') final String? placeDate,
       required final String link,
       required final String logo,
       required final String id,
@@ -289,6 +291,7 @@ abstract class _NewsModel implements NewsModel {
   @override
   String get headline;
   @override
+  @JsonKey(name: 'place_date')
   String? get placeDate;
   @override
   String get link;

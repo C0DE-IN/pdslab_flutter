@@ -2,7 +2,7 @@
   {
     "svgId": "emblem_of_india",
     "name": "",
-    "logo": "/src/assets/logos/india_emblem.svg",
+    "logo": "lib/assets/logos/india_emblem.svg",
     "alt": "",
     "link": "",
     "type": "",
@@ -11,7 +11,7 @@
   {
     "svgId": "emblem_of_india",
     "name": "",
-    "logo": "/src/assets/logos/india_emblem.svg",
+    "logo": "lib/assets/logos/india_emblem.svg",
     "alt": "",
     "link": "",
     "type": "",
@@ -20,7 +20,7 @@
   {
     "svgId": "emblem_of_india",
     "name": "",
-    "logo": "/src/assets/logos/india_emblem.svg",
+    "logo": "lib/assets/logos/india_emblem.svg",
     "alt": "",
     "link": "",
     "type": "",
