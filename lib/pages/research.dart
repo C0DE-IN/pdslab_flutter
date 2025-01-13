@@ -15,6 +15,7 @@ class _ResearchPageState extends State<ResearchPage> {
   late Future<List<ResearchModel>> _researchData;
   List<ResearchModel>? _loadedData;
   int _currentIndex = 0;
+  final List<GlobalKey> _sectionKeys = [];
 
   @override
   void initState() {
@@ -23,6 +24,7 @@ class _ResearchPageState extends State<ResearchPage> {
     _researchData.then((data) {
       setState(() {
         _loadedData = data;
+        _sectionKeys.addAll(List.generate(data.length, (_) => GlobalKey()));
       });
     });
   }
@@ -36,15 +38,31 @@ class _ResearchPageState extends State<ResearchPage> {
   void _onScroll() {
     if (_loadedData == null || !_scrollController.hasClients) return;
 
-    final currentScroll = _scrollController.offset;
     final screenHeight = MediaQuery.of(context).size.height;
-    final viewportHeight = screenHeight * 2;
+    final scrollOffset = _scrollController.offset;
 
-    int newIndex = (currentScroll / viewportHeight).floor();
-    if (newIndex != _currentIndex && newIndex < _loadedData!.length) {
-      setState(() {
-        _currentIndex = newIndex;
-      });
+    // Calculate which section is currently visible
+    for (int i = 0; i < _sectionKeys.length; i++) {
+      final key = _sectionKeys[i];
+      final context = key.currentContext;
+      if (context != null) {
+        final box = context.findRenderObject() as RenderBox;
+        final position = box.localToGlobal(Offset.zero);
+        final bottomEdge = position.dy + box.size.height;
+
+        // Change background when foreground's bottom edge reaches screen bottom
+        if (bottomEdge <= screenHeight && bottomEdge > 0) {
+          // Changed condition
+          if (_currentIndex != i + 1 && i + 1 < _loadedData!.length) {
+            // Show next background
+            setState(() {
+              _currentIndex = i + 1;
+              print('Changing to background: ${i + 1}'); // Debug print
+            });
+          }
+          break;
+        }
+      }
     }
   }
 
@@ -60,18 +78,18 @@ class _ResearchPageState extends State<ResearchPage> {
 
           return Stack(
             children: [
-              // Simple background image without animations
-              Positioned.fill(
-                child: Image.asset(
-                  snapshot.data![_currentIndex].imgSrc,
-                  fit: BoxFit.contain,
-                ),
+              // Background Image - No animation
+              Image.asset(
+                snapshot.data![_currentIndex].imgSrc,
+                width: double.infinity,
+                height: double.infinity,
+                fit: BoxFit.contain,
               ),
 
               // Scrollable content
               NotificationListener<ScrollNotification>(
-                onNotification: (scrollNotification) {
-                  if (scrollNotification is ScrollUpdateNotification) {
+                onNotification: (notification) {
+                  if (notification is ScrollUpdateNotification) {
                     _onScroll();
                   }
                   return false;
@@ -79,8 +97,11 @@ class _ResearchPageState extends State<ResearchPage> {
                 child: SingleChildScrollView(
                   controller: _scrollController,
                   child: Column(
-                    children: snapshot.data!.map((topic) {
+                    children: snapshot.data!.asMap().entries.map((entry) {
+                      final index = entry.key;
+                      final topic = entry.value;
                       return Column(
+                        key: _sectionKeys[index],
                         children: [
                           SizedBox(height: MediaQuery.of(context).size.height),
                           Container(
