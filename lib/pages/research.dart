@@ -16,6 +16,7 @@ class _ResearchPageState extends State<ResearchPage> {
   List<ResearchModel>? _loadedData;
   int _currentIndex = 0;
   final List<GlobalKey> _sectionKeys = [];
+  double _lastScrollPosition = 0; // Add this property
 
   @override
   void initState() {
@@ -40,6 +41,7 @@ class _ResearchPageState extends State<ResearchPage> {
 
     final screenHeight = MediaQuery.of(context).size.height;
     final scrollOffset = _scrollController.offset;
+    final isScrollingUp = scrollOffset < _lastScrollPosition;
 
     // Calculate which section is currently visible
     for (int i = 0; i < _sectionKeys.length; i++) {
@@ -49,21 +51,35 @@ class _ResearchPageState extends State<ResearchPage> {
         final box = context.findRenderObject() as RenderBox;
         final position = box.localToGlobal(Offset.zero);
         final bottomEdge = position.dy + box.size.height;
+        final topEdge = position.dy;
 
-        // Change background when foreground's bottom edge reaches screen bottom
-        if (bottomEdge <= screenHeight && bottomEdge > 0) {
-          // Changed condition
-          if (_currentIndex != i + 1 && i + 1 < _loadedData!.length) {
-            // Show next background
-            setState(() {
-              _currentIndex = i + 1;
-              print('Changing to background: ${i + 1}'); // Debug print
-            });
+        if (isScrollingUp) {
+          // For reverse scrolling, change background when section's top hits screen top
+          if (topEdge <= 0 && topEdge > -box.size.height) {
+            if (_currentIndex != i && i >= 0) {
+              setState(() {
+                _currentIndex = i;
+                print('Reverse: Changing to background: $i');
+              });
+            }
+            break;
           }
-          break;
+        } else {
+          // Forward scrolling logic remains the same
+          if (bottomEdge <= screenHeight && bottomEdge > 0) {
+            if (_currentIndex != i + 1 && i + 1 < _loadedData!.length) {
+              setState(() {
+                _currentIndex = i + 1;
+                print('Forward: Changing to background: ${i + 1}');
+              });
+            }
+            break;
+          }
         }
       }
     }
+
+    _lastScrollPosition = scrollOffset;
   }
 
   @override
