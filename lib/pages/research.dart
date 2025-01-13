@@ -14,7 +14,6 @@ class _ResearchPageState extends State<ResearchPage> {
   final ScrollController _scrollController = ScrollController();
   late Future<List<ResearchModel>> _researchData;
   List<ResearchModel>? _loadedData;
-  double _lastScrollPosition = 0;
   int _currentIndex = 0;
 
   @override
@@ -47,8 +46,6 @@ class _ResearchPageState extends State<ResearchPage> {
         _currentIndex = newIndex;
       });
     }
-
-    _lastScrollPosition = currentScroll;
   }
 
   @override
@@ -63,30 +60,13 @@ class _ResearchPageState extends State<ResearchPage> {
 
           return Stack(
             children: [
-              // Background images stack
-              ...List.generate(snapshot.data!.length, (index) {
-                final opacity = index == _currentIndex
-                    ? 1.0
-                    : index == _currentIndex + 1
-                        ? (_scrollController.hasClients
-                            ? (_scrollController.offset /
-                                        MediaQuery.of(context).size.height -
-                                    _currentIndex * 2)
-                                .clamp(0.0, 1.0)
-                            : 0.0)
-                        : 0.0;
-
-                return Positioned.fill(
-                  child: AnimatedOpacity(
-                    duration: const Duration(milliseconds: 300),
-                    opacity: opacity,
-                    child: Image.asset(
-                      snapshot.data![index].imgSrc,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                );
-              }),
+              // Simple background image without animations
+              Positioned.fill(
+                child: Image.asset(
+                  snapshot.data![_currentIndex].imgSrc,
+                  fit: BoxFit.contain,
+                ),
+              ),
 
               // Scrollable content
               NotificationListener<ScrollNotification>(
@@ -187,7 +167,6 @@ class _ResearchPageState extends State<ResearchPage> {
                                           ),
                                         ),
                                       ],
-                                      const SizedBox(height: 24),
                                     ],
                                   );
                                 }),
