@@ -44,7 +44,8 @@ class _MyAppState extends State<MyApp> {
           debugShowCheckedModeBanner: false,
           builder: (context, child) {
             return BackgroundContainer(
-              child: child ?? const SizedBox(),
+              backgroundImage: 'lib/assets/images/bg/bg.jpg',
+              child: child ?? const SizedBox(), // Add this line
             );
           },
         );
