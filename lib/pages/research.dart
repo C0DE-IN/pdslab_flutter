@@ -59,7 +59,7 @@ class _ResearchPageState extends State<ResearchPage> {
             if (_currentIndex != i && i >= 0) {
               setState(() {
                 _currentIndex = i;
-                print('Reverse: Changing to background: $i');
+                // print('Reverse: Changing to background: $i');
               });
             }
             break;
@@ -70,7 +70,7 @@ class _ResearchPageState extends State<ResearchPage> {
             if (_currentIndex != i + 1 && i + 1 < _loadedData!.length) {
               setState(() {
                 _currentIndex = i + 1;
-                print('Forward: Changing to background: ${i + 1}');
+                // print('Forward: Changing to background: ${i + 1}');
               });
             }
             break;

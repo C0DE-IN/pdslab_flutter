@@ -37,6 +37,10 @@ class SqTileBtn extends StatelessWidget {
         child: SvgPicture.asset(
           logoPath,
           semanticsLabel: label,
+          colorFilter: ColorFilter.mode(
+            Theme.of(context).colorScheme.onPrimary,
+            BlendMode.srcIn,
+          ),
         ),
       ),
     );

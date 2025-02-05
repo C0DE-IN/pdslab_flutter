@@ -74,7 +74,7 @@ flutter:
     - lib/assets/images/bg/
     - lib/assets/icons/
     - lib/assets/fonts/
-    - lib/assets/logos/
+    - lib/assets/logos/    
     - lib/assets/data/about/
     - lib/assets/data/news/
     - lib/assets/data/notice/
@@ -87,6 +87,7 @@ flutter:
     - lib/assets/data/contact/
     - lib/assets/data/funds/
     - lib/assets/data/research-area/
+    - lib/assets/images/people/research/
     - lib/assets/images/people/
     - lib/assets/images/parallax/
     - lib/assets/images/album/

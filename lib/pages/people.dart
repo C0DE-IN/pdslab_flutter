@@ -183,54 +183,64 @@ class PeoplePage extends StatelessWidget {
       ),
       itemCount: data.length,
       itemBuilder: (context, index) {
-        return Card(
-          color: isDarkMode
-              ? Colors.grey[850]?.withAlpha(180)
-              : Colors.white.withAlpha(180),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Expanded(
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    Image.asset(
-                      data[index].imgSrc!,
-                      fit: BoxFit.cover,
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      child: Container(
-                        color: Colors.black54,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8.0, vertical: 8.0),
-                        child: Column(
-                          children: [
-                            Text(
-                              data[index].name,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
+        return InkWell(
+          onTap: () {
+            final formattedName = data[index]
+                .name
+                .replaceAll(' ', '-')
+                .replaceAll('\'', '')
+                .toLowerCase();
+            context.go('/people/$formattedName');
+          },
+          child: Card(
+            color: isDarkMode
+                ? Colors.grey[850]?.withAlpha(180)
+                : Colors.white.withAlpha(180),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      Image.asset(
+                        data[index].imgSrc!,
+                        fit: BoxFit.cover,
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        child: Container(
+                          color: Colors.black54,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0, vertical: 8.0),
+                          child: Column(
+                            children: [
+                              Text(
+                                data[index].name,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                            Text(
-                              data[index].position,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
+                              Text(
+                                data[index].position,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },

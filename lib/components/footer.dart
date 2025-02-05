@@ -68,9 +68,9 @@ class _FooterState extends State<Footer> {
           child: Container(
             width: 48,
             height: 48,
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: backgroundColor,
+              // color: backgroundColor,
               borderRadius: BorderRadius.circular(8),
               boxShadow: [
                 BoxShadow(
@@ -82,20 +82,15 @@ class _FooterState extends State<Footer> {
             ),
             child: Stack(
               children: [
-                // Background color fill for SVG if needed
-                if (backgroundColor == Colors.white)
-                  Container(
-                    decoration: BoxDecoration(
-                      color: backgroundColor,
-                      borderRadius: BorderRadius.circular(4),
-                    ),
+                // if (backgroundColor == Colors.white)
+                Container(
+                  decoration: BoxDecoration(
+                    // color: backgroundColor,
+                    borderRadius: BorderRadius.circular(4),
                   ),
-                // SVG with proper color handling
+                ),
                 SvgPicture.asset(
                   iconPath,
-                  colorFilter: data['id'] == 'GoogleScholar' || data['id'] == 'Twitter'
-                      ? ColorFilter.mode(textColor, BlendMode.srcIn)
-                      : null,
                   fit: BoxFit.contain,
                   placeholderBuilder: (BuildContext context) {
                     return Center(
@@ -137,7 +132,6 @@ class _FooterState extends State<Footer> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: socialMediaData.map((data) {
-              // Debug print
               return _buildSocialIcon(data);
             }).toList(),
           ),

@@ -20,7 +20,6 @@ class Individual extends StatelessWidget {
     for (String path in paths) {
       final String response = await rootBundle.loadString(path);
       final List<dynamic> jsonData = json.decode(response);
-      // Search for the person by name
       for (var person in jsonData) {
         final PeopleModel model = PeopleModel.fromJson(person);
         if (model.name.replaceAll(' ', '-').toLowerCase() == name) {
@@ -113,8 +112,7 @@ class Individual extends StatelessWidget {
                             const SizedBox(width: 16),
                             Expanded(
                               child: Column(
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text('Position: ${person.position}',
                                       style: const TextStyle(fontSize: 20)),
@@ -132,8 +130,7 @@ class Individual extends StatelessWidget {
                         Card(
                           child: Padding(
                             padding: const EdgeInsets.all(16.0),
-                            child: Text(
-                                'Research Summary: ${person.summary}',
+                            child: Text('Research Summary: ${person.summary}',
                                 style: const TextStyle(fontSize: 16)),
                           ),
                         ),
@@ -175,7 +172,7 @@ class Individual extends StatelessWidget {
         } else {
           final person = snapshot.data!;
           return FutureBuilder<List<String>>(
-            future: _loadPublications(person.name),
+            future: _loadPublications(person.name.split('-').first),
             builder: (context, pubSnapshot) {
               if (pubSnapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
@@ -200,8 +197,7 @@ class Individual extends StatelessWidget {
                             const SizedBox(width: 16),
                             Expanded(
                               child: Column(
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text('Position: ${person.position}',
                                       style: const TextStyle(fontSize: 20)),
@@ -215,12 +211,97 @@ class Individual extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 16),
+                      if (person.credentials != null)
+                        Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text('Credentials:',
+                                    style: TextStyle(fontSize: 20)),
+                                ...person.credentials!
+                                    .map((cred) => Text(cred)),
+                              ],
+                            ),
+                          ),
+                        ),
+                      const SizedBox(height: 16),
                       if (person.summary != null)
                         Card(
                           child: Padding(
                             padding: const EdgeInsets.all(16.0),
-                            child: Text('Research Summary: ${person.summary}',
-                                style: const TextStyle(fontSize: 16)),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text('Research Summary:',
+                                    style: TextStyle(fontSize: 20)),
+                                ...person.summary!.map((content) {
+                                  return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      if (content.list != null)
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text('${content.list!.title}:',
+                                                style: const TextStyle(
+                                                    fontSize: 18)),
+                                            DataTable(
+                                              columns: const [
+                                                DataColumn(
+                                                    label: Text('Highlights')),
+                                              ],
+                                              rows: content.list!.array!
+                                                  .map((item) => DataRow(
+                                                        cells: [
+                                                          DataCell(Text(item)),
+                                                        ],
+                                                      ))
+                                                  .toList(),
+                                            ),
+                                          ],
+                                        ),
+                                      if (content.imgSrc != null)
+                                        Image.asset(content.imgSrc!),
+                                      ...content.text.map((text) => Text(text)),
+                                    ],
+                                  );
+                                }),
+                              ],
+                            ),
+                          ),
+                        ),
+                      const SizedBox(height: 16),
+                      if (person.awards != null)
+                        Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text('Awards:',
+                                    style: TextStyle(fontSize: 20)),
+                                DataTable(
+                                  columns: const [
+                                    DataColumn(label: Text('Name')),
+                                    DataColumn(label: Text('Year')),
+                                    DataColumn(label: Text('From')),
+                                  ],
+                                  rows: person.awards!
+                                      .map((award) => DataRow(
+                                            cells: [
+                                              DataCell(Text(award.name)),
+                                              DataCell(Text(award.year)),
+                                              DataCell(Text(award.from)),
+                                            ],
+                                          ))
+                                      .toList(),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       const SizedBox(height: 16),

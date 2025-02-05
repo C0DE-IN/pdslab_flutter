@@ -20,13 +20,11 @@ class ContactPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
-        backgroundColor: isDarkMode 
-            ? Colors.grey[900]
-            : Colors.white,
+        backgroundColor: isDarkMode ? Colors.grey[900] : Colors.white,
         title: const Text('Contact Information'),
       ),
       body: Container(
@@ -47,7 +45,7 @@ class ContactPage extends StatelessWidget {
                   final isDesktop = constraints.maxWidth > 800;
                   return SingleChildScrollView(
                     child: Container(
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Colors.transparent,
                       ),
                       padding: const EdgeInsets.all(16.0),
@@ -86,12 +84,10 @@ class ContactPage extends StatelessWidget {
 
   Widget _buildContactCard(BuildContext context, ContactModel contact) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    
+
     return Card(
       elevation: 4,
-      color: isDarkMode 
-          ? Colors.grey[900]
-          : Colors.white,
+      color: isDarkMode ? Colors.grey[900] : Colors.white,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -123,12 +119,10 @@ class ContactPage extends StatelessWidget {
 
   Widget _buildMapCard(BuildContext context, ContactModel contact) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    
+
     return Card(
       elevation: 4,
-      color: isDarkMode 
-          ? Colors.grey[900]
-          : Colors.white,
+      color: isDarkMode ? Colors.grey[900] : Colors.white,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
