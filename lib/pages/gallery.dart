@@ -140,149 +140,160 @@ class _GalleryPageState extends State<GalleryPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-            selectedFolder != null ? formatPath(selectedFolder!) : 'Gallery'),
-        leading: selectedFolder != null && selectedFolder != 'lab_photos'
-            ? IconButton(
-                icon: const Icon(Icons.arrow_back),
-                onPressed: () {
-                  _loadLabPhotos();
-                  _pageController.jumpToPage(0);
-                },
-              )
-            : null,
-      ),
-      body: SingleChildScrollView(
-        controller: _scrollController,
-        child: Column(
-          children: [
-            // Image Carousel
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.8,
-              child: _buildImageCarousel(),
-            ),
-            // Album Grid
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 16,
-                  mainAxisSpacing: 16,
-                  childAspectRatio: 0.8,
+    return SingleChildScrollView(
+      primary: false, // Prevents conflict with primary scroll controller
+      physics: const NeverScrollableScrollPhysics(), // Disable outer scrolling
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height,
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            title: Text(selectedFolder != null
+                ? formatPath(selectedFolder!)
+                : 'Gallery'),
+            leading: selectedFolder != null && selectedFolder != 'lab_photos'
+                ? IconButton(
+                    icon: const Icon(Icons.arrow_back),
+                    onPressed: () {
+                      _loadLabPhotos();
+                      _pageController.jumpToPage(0);
+                    },
+                  )
+                : null,
+          ),
+          body: SingleChildScrollView(
+            controller: _scrollController,
+            child: Column(
+              children: [
+                // Image Carousel
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.8,
+                  child: _buildImageCarousel(),
                 ),
-                itemCount: _imageFolders.length,
-                itemBuilder: (context, index) {
-                  final folder = _imageFolders[index];
-                  return FutureBuilder<List<String>>(
-                    future: getImagesFromAssets(folder),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                        return const SizedBox.shrink();
-                      }
+                // Album Grid
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 16,
+                      mainAxisSpacing: 16,
+                      childAspectRatio: 0.8,
+                    ),
+                    itemCount: _imageFolders.length,
+                    itemBuilder: (context, index) {
+                      final folder = _imageFolders[index];
+                      return FutureBuilder<List<String>>(
+                        future: getImagesFromAssets(folder),
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                            return const SizedBox.shrink();
+                          }
 
-                      final images = snapshot.data!;
+                          final images = snapshot.data!;
 
-                      return Card(
-                        elevation: 4,
-                        clipBehavior: Clip.antiAlias,
-                        child: InkWell(
-                          onTap: () {
-                            setState(() {
-                              selectedFolder = folder;
-                              currentImages = images;
-                              currentIndex = 0;
-                              _pageController.jumpToPage(0);
-                            });
-                            _scrollToTop();
-                            _startAutoSlide();
-                          },
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Expanded(
-                                flex: 3,
-                                child: Stack(
-                                  fit: StackFit.expand,
-                                  children: [
-                                    Image.asset(
-                                      images.first,
-                                      fit: BoxFit.cover,
-                                      errorBuilder:
-                                          (context, error, stackTrace) {
-                                        // print(
-                                        //     'Error loading image ${images.first}: $error');
-                                        return const Center(
-                                          child: Icon(Icons.image,
-                                              color: Colors.grey),
-                                        );
-                                      },
-                                    ),
-                                    Positioned(
-                                      bottom: 0,
-                                      left: 0,
-                                      right: 0,
-                                      child: Container(
-                                        height: 60,
-                                        decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                            begin: Alignment.topCenter,
-                                            end: Alignment.bottomCenter,
-                                            colors: [
-                                              Colors.transparent,
-                                              Colors.black.withOpacity(0.7),
-                                            ],
+                          return Card(
+                            elevation: 4,
+                            clipBehavior: Clip.antiAlias,
+                            child: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  selectedFolder = folder;
+                                  currentImages = images;
+                                  currentIndex = 0;
+                                  _pageController.jumpToPage(0);
+                                });
+                                _scrollToTop();
+                                _startAutoSlide();
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  Expanded(
+                                    flex: 3,
+                                    child: Stack(
+                                      fit: StackFit.expand,
+                                      children: [
+                                        Image.asset(
+                                          images.first,
+                                          fit: BoxFit.cover,
+                                          errorBuilder:
+                                              (context, error, stackTrace) {
+                                            // print(
+                                            //     'Error loading image ${images.first}: $error');
+                                            return const Center(
+                                              child: Icon(Icons.image,
+                                                  color: Colors.grey),
+                                            );
+                                          },
+                                        ),
+                                        Positioned(
+                                          bottom: 0,
+                                          left: 0,
+                                          right: 0,
+                                          child: Container(
+                                            height: 60,
+                                            decoration: BoxDecoration(
+                                              gradient: LinearGradient(
+                                                begin: Alignment.topCenter,
+                                                end: Alignment.bottomCenter,
+                                                colors: [
+                                                  Colors.transparent,
+                                                  Colors.black.withOpacity(0.7),
+                                                ],
+                                              ),
+                                            ),
                                           ),
                                         ),
+                                      ],
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 1,
+                                    child: Container(
+                                      color: Theme.of(context)
+                                          .primaryColor
+                                          .withOpacity(0.1),
+                                      padding: const EdgeInsets.all(8),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            formatPath(folder),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleSmall,
+                                            textAlign: TextAlign.center,
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          const SizedBox(height: 4),
+                                          Text(
+                                            '${images.length} photos',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall,
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: Container(
-                                  color: Theme.of(context)
-                                      .primaryColor
-                                      .withOpacity(0.1),
-                                  padding: const EdgeInsets.all(8),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        formatPath(folder),
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleSmall,
-                                        textAlign: TextAlign.center,
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      const SizedBox(height: 4),
-                                      Text(
-                                        '${images.length} photos',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall,
-                                      ),
-                                    ],
                                   ),
-                                ),
+                                ],
                               ),
-                            ],
-                          ),
-                        ),
+                            ),
+                          );
+                        },
                       );
                     },
-                  );
-                },
-              ),
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

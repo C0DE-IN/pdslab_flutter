@@ -1,0 +1,9 @@
+export 'home.dart';
+export 'research.dart';
+export 'people.dart';
+export 'publications.dart';
+export 'gallery.dart';
+export 'funds.dart';
+export 'contact.dart';
+export 'individual.dart';
+export 'resource.dart';

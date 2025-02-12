@@ -1,31 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pdslab/components/footer.dart';
 import 'package:pdslab/components/gradient_text.dart';
 import 'package:pdslab/misc/destinations.dart';
 import 'package:pdslab/providers/theme_provider.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 bool _isMediumScreen(BuildContext context) {
   return MediaQuery.sizeOf(context).width > 640.0;
 }
 
-class NavBar extends StatefulWidget {
+class NavBar extends ConsumerStatefulWidget {
   final String title;
   final Widget child;
   const NavBar({super.key, required this.title, required this.child});
 
   @override
-  State<NavBar> createState() => _NavBarState();
+  ConsumerState<NavBar> createState() => _NavBarState();
 }
 
-class _NavBarState extends State<NavBar> {
+class _NavBarState extends ConsumerState<NavBar> {
   int currentPageIndex = 0;
   NavigationRailLabelType labelType = NavigationRailLabelType.all;
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+    final themeState = ref.watch(themeProviderProvider);
 
     Widget titleContent = Container(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -51,16 +52,15 @@ class _NavBarState extends State<NavBar> {
           IconButton(
             color: Theme.of(context).colorScheme.onPrimary,
             onPressed: () {
-              themeProvider.toggleTheme();
+              ref.read(themeProviderProvider.notifier).toggleTheme();
             },
-            icon: themeProvider.themeData == darkMode
+            icon: themeState == darkMode
                 ? const Icon(Icons.light_mode)
                 : const Icon(Icons.dark_mode),
           ),
         ],
       ),
     );
-
     if (_isMediumScreen(context)) {
       return Scaffold(
         body: NestedScrollView(
@@ -69,8 +69,6 @@ class _NavBarState extends State<NavBar> {
               backgroundColor: Theme.of(context).colorScheme.primary,
               expandedHeight: 100,
               floating: true,
-              // pinned: true,
-              // snap: false,
               flexibleSpace: FlexibleSpaceBar(
                 background: titleContent,
               ),
@@ -81,7 +79,8 @@ class _NavBarState extends State<NavBar> {
               SingleChildScrollView(
                 child: ConstrainedBox(
                   constraints: BoxConstraints(
-                      minHeight: MediaQuery.of(context).size.height),
+                    minHeight: MediaQuery.sizeOf(context).height,
+                  ),
                   child: IntrinsicHeight(
                     child: NavigationRail(
                       backgroundColor: Theme.of(context).colorScheme.primary,
@@ -110,7 +109,28 @@ class _NavBarState extends State<NavBar> {
                 ),
               ),
               Expanded(
-                child: widget.child,
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    return SingleChildScrollView(
+                      primary: false,
+                      controller: ScrollController(),
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          minHeight: constraints.maxHeight,
+                        ),
+                        child: IntrinsicHeight(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Expanded(child: widget.child),
+                              const Footer(),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
               ),
             ],
           ),
@@ -118,39 +138,76 @@ class _NavBarState extends State<NavBar> {
       );
     }
 
+    // Replace the mobile view return statement
     return Scaffold(
-      body: NestedScrollView(
-        headerSliverBuilder: (context, innerBoxIsScrolled) => [
-          SliverAppBar(
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            expandedHeight: 100,
-            floating: true,
-            flexibleSpace: FlexibleSpaceBar(
-              background: titleContent,
+      body: Row(
+        children: [
+          Expanded(
+            child: Column(
+              children: [
+                // Title section
+                Container(
+                  color: Theme.of(context).colorScheme.primary,
+                  child: titleContent,
+                ),
+                // Content section with scroll handling
+                Expanded(
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      return SingleChildScrollView(
+                        primary: false,
+                        controller: ScrollController(),
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minHeight: constraints.maxHeight,
+                          ),
+                          child: IntrinsicHeight(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                Expanded(child: widget.child),
+                                const Footer(),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
           ),
         ],
-        body: widget.child,
       ),
-      bottomNavigationBar: NavigationBar(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        onDestinationSelected: (int index) {
-          setState(() {
-            currentPageIndex = index;
-          });
-          context.go(destinations[index].path);
-        },
-        selectedIndex: currentPageIndex,
-        indicatorColor: Theme.of(context).colorScheme.secondary,
-        destinations: destinations.map<NavigationDestination>((d) {
-          return NavigationDestination(
-            icon: Icon(
-              d.icon,
-              color: Theme.of(context).colorScheme.onPrimary,
+      bottomNavigationBar: SingleChildScrollView(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(
+            minHeight: 80, // Adjust height as needed
+          ),
+          child: IntrinsicHeight(
+            child: NavigationBar(
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              onDestinationSelected: (int index) {
+                setState(() {
+                  currentPageIndex = index;
+                });
+                context.go(destinations[index].path);
+              },
+              selectedIndex: currentPageIndex,
+              indicatorColor: Theme.of(context).colorScheme.secondary,
+              destinations: destinations.map<NavigationDestination>((d) {
+                return NavigationDestination(
+                  icon: Icon(
+                    d.icon,
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
+                  label: d.label,
+                );
+              }).toList(),
             ),
-            label: d.label,
-          );
-        }).toList(),
+          ),
+        ),
       ),
     );
   }

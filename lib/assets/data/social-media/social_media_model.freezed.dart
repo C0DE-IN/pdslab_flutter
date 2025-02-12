@@ -23,6 +23,7 @@ mixin _$SocialMediaModel {
   String get link => throw _privateConstructorUsedError;
   String get imgSrc => throw _privateConstructorUsedError;
   String get color => throw _privateConstructorUsedError;
+  double get padding => throw _privateConstructorUsedError;
   String? get text => throw _privateConstructorUsedError;
   String? get txtColor => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
@@ -47,6 +48,7 @@ abstract class $SocialMediaModelCopyWith<$Res> {
       {String link,
       String imgSrc,
       String color,
+      double padding,
       String? text,
       String? txtColor,
       String id});
@@ -70,6 +72,7 @@ class _$SocialMediaModelCopyWithImpl<$Res, $Val extends SocialMediaModel>
     Object? link = null,
     Object? imgSrc = null,
     Object? color = null,
+    Object? padding = null,
     Object? text = freezed,
     Object? txtColor = freezed,
     Object? id = null,
@@ -87,6 +90,10 @@ class _$SocialMediaModelCopyWithImpl<$Res, $Val extends SocialMediaModel>
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
               as String,
+      padding: null == padding
+          ? _value.padding
+          : padding // ignore: cast_nullable_to_non_nullable
+              as double,
       text: freezed == text
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
@@ -115,6 +122,7 @@ abstract class _$$SocialMediaModelImplCopyWith<$Res>
       {String link,
       String imgSrc,
       String color,
+      double padding,
       String? text,
       String? txtColor,
       String id});
@@ -136,6 +144,7 @@ class __$$SocialMediaModelImplCopyWithImpl<$Res>
     Object? link = null,
     Object? imgSrc = null,
     Object? color = null,
+    Object? padding = null,
     Object? text = freezed,
     Object? txtColor = freezed,
     Object? id = null,
@@ -153,6 +162,10 @@ class __$$SocialMediaModelImplCopyWithImpl<$Res>
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
               as String,
+      padding: null == padding
+          ? _value.padding
+          : padding // ignore: cast_nullable_to_non_nullable
+              as double,
       text: freezed == text
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
@@ -176,6 +189,7 @@ class _$SocialMediaModelImpl implements _SocialMediaModel {
       {required this.link,
       required this.imgSrc,
       required this.color,
+      required this.padding,
       this.text,
       this.txtColor,
       required this.id});
@@ -190,6 +204,8 @@ class _$SocialMediaModelImpl implements _SocialMediaModel {
   @override
   final String color;
   @override
+  final double padding;
+  @override
   final String? text;
   @override
   final String? txtColor;
@@ -198,7 +214,7 @@ class _$SocialMediaModelImpl implements _SocialMediaModel {
 
   @override
   String toString() {
-    return 'SocialMediaModel(link: $link, imgSrc: $imgSrc, color: $color, text: $text, txtColor: $txtColor, id: $id)';
+    return 'SocialMediaModel(link: $link, imgSrc: $imgSrc, color: $color, padding: $padding, text: $text, txtColor: $txtColor, id: $id)';
   }
 
   @override
@@ -209,6 +225,7 @@ class _$SocialMediaModelImpl implements _SocialMediaModel {
             (identical(other.link, link) || other.link == link) &&
             (identical(other.imgSrc, imgSrc) || other.imgSrc == imgSrc) &&
             (identical(other.color, color) || other.color == color) &&
+            (identical(other.padding, padding) || other.padding == padding) &&
             (identical(other.text, text) || other.text == text) &&
             (identical(other.txtColor, txtColor) ||
                 other.txtColor == txtColor) &&
@@ -217,8 +234,8 @@ class _$SocialMediaModelImpl implements _SocialMediaModel {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, link, imgSrc, color, text, txtColor, id);
+  int get hashCode => Object.hash(
+      runtimeType, link, imgSrc, color, padding, text, txtColor, id);
 
   /// Create a copy of SocialMediaModel
   /// with the given fields replaced by the non-null parameter values.
@@ -242,6 +259,7 @@ abstract class _SocialMediaModel implements SocialMediaModel {
       {required final String link,
       required final String imgSrc,
       required final String color,
+      required final double padding,
       final String? text,
       final String? txtColor,
       required final String id}) = _$SocialMediaModelImpl;
@@ -255,6 +273,8 @@ abstract class _SocialMediaModel implements SocialMediaModel {
   String get imgSrc;
   @override
   String get color;
+  @override
+  double get padding;
   @override
   String? get text;
   @override

@@ -1,105 +1,58 @@
 import 'package:flutter/material.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:pdslab/services/storage_service.dart';
+
+part 'theme_provider.g.dart';
 
 ThemeData lightMode = ThemeData(
   useMaterial3: true,
   colorScheme: const ColorScheme(
-      brightness: Brightness.light,
-      primary: Color.fromARGB(255, 213, 185, 144),
-      onPrimary: Color.fromARGB(255, 41, 31, 15),
-      secondary: Color.fromARGB(255, 217, 203, 176),
-      onSecondary: Color.fromARGB(255, 92, 69, 35),
-      tertiary: Color.fromARGB(255, 216, 159, 75),
-      onTertiary: Color.fromARGB(255, 75, 50, 12),
-      error: Color.fromARGB(255, 174, 15, 15),
-      onError: Color.fromARGB(255, 250, 250, 250),
-      surface: Color.fromRGBO(255, 236, 227, 212),
-      onSurface: Color.fromARGB(0, 55, 42, 21)),
+    brightness: Brightness.light,
+    primary: Color.fromARGB(255, 132, 181, 245),
+    onPrimary: Color.fromARGB(255, 42, 57, 77),
+    secondary: Color.fromARGB(255, 103, 166, 248),
+    onSecondary: Color.fromARGB(255, 33, 53, 78),
+    tertiary: Color.fromARGB(255, 163, 200, 249),
+    onTertiary: Color.fromARGB(255, 33, 53, 78),
+    error: Color.fromARGB(255, 234, 12, 12),
+    onError: Color.fromARGB(255, 37, 9, 2),
+    surface: Color.fromARGB(255, 230, 239, 250),
+    onSurface: Color.fromARGB(255, 30, 53, 80),
+  ),
 );
 ThemeData darkMode = ThemeData(
   useMaterial3: true,
   colorScheme: const ColorScheme(
-      brightness: Brightness.dark,
-      primary: Color.fromARGB(127, 0, 95, 143),
-      onPrimary: Color.fromARGB(255, 204, 255, 255),
-      secondary: Color.fromARGB(127, 59, 81, 94),
-      onSecondary: Color.fromARGB(255, 204, 255, 255),
-      tertiary: Color.fromARGB(127, 38, 163, 217),
-      onTertiary: Color.fromARGB(255, 30, 36, 36),
-      error: Color.fromARGB(255, 222, 2, 2),
-      onError: Color.fromARGB(255, 255, 255, 255),
-      surface: Color.fromRGBO(0, 0, 15, 31),
-      onSurface: Color.fromARGB(255, 204, 255, 255)),
+    brightness: Brightness.dark,
+    primary: Color.fromARGB(255, 42, 57, 77),
+    onPrimary: Color.fromARGB(255, 230, 239, 250),
+    secondary: Color.fromARGB(255, 59, 80, 107),
+    onSecondary: Color.fromARGB(255, 195, 217, 247),
+    error: Color.fromARGB(255, 234, 12, 12),
+    onError: Color.fromARGB(255, 248, 248, 231),
+    surface: Color.fromARGB(255, 25, 39, 57),
+    onSurface: Color.fromARGB(255, 208, 226, 250),
+  ),
 );
 
-class ThemeProvider extends ChangeNotifier {
-  ThemeMode _themeMode = ThemeMode.system;
+@riverpod
+class ThemeProvider extends _$ThemeProvider {
+  static const String _themeKey = 'theme_mode';
 
-  ThemeMode get themeMode => _themeMode;
-
-  set themeMode(ThemeMode mode) {
-    _themeMode = mode;
-    notifyListeners();
+  @override
+  ThemeData build() {
+    _loadTheme();
+    return darkMode;
   }
 
-  ThemeData get themeData {
-    return _themeMode == ThemeMode.dark ? darkMode : lightMode;
+  Future<void> _loadTheme() async {
+    final isDark = await StorageService.instance.getBool(_themeKey) ?? true;
+    state = isDark ? darkMode : lightMode;
   }
 
-  void toggleTheme() {
-    if (_themeMode == ThemeMode.light) {
-      themeMode = ThemeMode.dark;
-    } else {
-      themeMode = ThemeMode.light;
-    }
+  Future<void> toggleTheme() async {
+    final isDark = state == darkMode;
+    await StorageService.instance.setBool(_themeKey, !isDark);
+    state = !isDark ? darkMode : lightMode;
   }
 }
-
-
-// @layer base {
-//   :root {
-//     --background: 36 39% 88%;
-//     --foreground: 36 45% 15%;
-//     --primary: 36 45% 70%;
-//     --primary-foreground: 36 45% 11%;
-//     --secondary: 40 35% 77%;
-//     --secondary-foreground: 36 45% 25%;
-//     --accent: 36 64% 57%;
-//     --accent-foreground: 36 72% 17%;
-//     --destructive: 0 84% 37%;
-//     --destructive-foreground: 0 0% 98%;
-//     --muted: 36 33% 75%;
-//     --muted-foreground: 36 45% 25%;
-//     --card: 36 46% 82%;
-//     --card-foreground: 36 45% 20%;
-//     --popover: 0 0% 100%;
-//     --popover-foreground: 240 10% 3.9%;
-//     --border: 36 45% 60%;
-//     --input: 36 45% 60%;
-//     --ring: 36 45% 30%;
-//     --chart-1: 25 34% 28%;
-//     --chart-2: 26 36% 34%;
-//     --chart-3: 28 40% 40%;
-//     --chart-4: 31 41% 48%;
-//     --chart-5: 35 43% 53%;
-//     --radius: 0rem;
-//   }
-// }
-//  --background: 210 100% 6%;
-//     --foreground: 180 100% 90%;
-//     --primary: 200 100% 28%;
-//     --primary-foreground: 180 100% 90%;
-//     --secondary: 203 23% 30%;
-//     --secondary-foreground: 180 100% 90%;
-//     --accent: 198 70% 50%;
-//     --accent-foreground: 185 10% 13%;
-//     --destructive: 0 98% 44%;
-//     --destructive-foreground: 0 0% 100%;
-//     --muted: 200 50% 30%;
-//     --muted-foreground: 180 100% 90%;
-//     --card: 210 100% 12%;
-//     --card-foreground: 180 100% 90%;
-//     --popover: 210 100% 15%;
-//     --popover-foreground: 180 100% 90%;
-//     --border: 210 50% 40%;
-//     --input: 210 50% 40%;
-//     --ring: 180 100% 90%;

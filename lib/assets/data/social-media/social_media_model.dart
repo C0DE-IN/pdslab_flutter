@@ -9,6 +9,7 @@ class SocialMediaModel with _$SocialMediaModel {
     required String link,
     required String imgSrc,
     required String color,
+    required double padding,
     String? text,
     String? txtColor,
     required String id,

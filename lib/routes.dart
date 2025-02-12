@@ -1,15 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pdslab/components/nav_bar.dart';
-import 'package:pdslab/pages/contact.dart';
-import 'package:pdslab/pages/funds.dart';
-import 'package:pdslab/pages/gallery.dart';
-import 'package:pdslab/pages/home.dart';
-import 'package:pdslab/pages/individual.dart';
-import 'package:pdslab/pages/people.dart';
-import 'package:pdslab/pages/publications.dart';
-import 'package:pdslab/pages/reource.dart';
-import 'package:pdslab/pages/research.dart';
+import 'package:pdslab/pages/pages.dart';
 
 class AppRoutes {
   static const String people = '/people/:name';
@@ -19,8 +11,17 @@ final GoRouter _router = GoRouter(
   routes: [
     ShellRoute(
       builder: (context, state, child) {
-        return SafeArea(
-          child: NavBar(title: 'Mitochondrial Biology Lab', child: child),
+        return Scaffold(
+          body: SafeArea(
+            child: Column(
+              children: [
+                Expanded(
+                  child:
+                      NavBar(title: 'Mitochondrial Biology Lab', child: child),
+                ),
+              ],
+            ),
+          ),
         );
       },
       routes: [

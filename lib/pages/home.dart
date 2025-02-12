@@ -5,7 +5,6 @@ import '../components/recent_publications.dart';
 import '../components/research_area_section.dart';
 import '../components/about_section.dart';
 import '../components/model_section.dart';
-import '../components/footer.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key, required this.title});
@@ -34,7 +33,6 @@ class _HomeState extends State<Home> {
         error = null;
       });
 
-      // Hardcode the image paths since we know they exist
       final List<String> images = List.generate(
         23,
         (index) => 'lib/assets/images/album/${index + 1}.jpg',
@@ -97,8 +95,6 @@ class _HomeState extends State<Home> {
           const ResearchAreaSection(),
           const SizedBox(height: 32),
           const ModelSection(),
-          const SizedBox(height: 32),
-          const Footer(),
         ],
       ),
     );

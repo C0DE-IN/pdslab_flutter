@@ -52,8 +52,7 @@ class _FooterState extends State<Footer> {
   Widget _buildSocialIcon(Map<String, dynamic> data) {
     final String iconPath = data['imgSrc'];
     final String link = data['link'];
-    final Color backgroundColor =
-        Color(int.parse(data['color'].replaceFirst('#', '0xFF')));
+    final double padd = data['padding'] ?? 0;
     final Color textColor =
         Color(int.parse(data['txtColor'].replaceFirst('#', '0xFF')));
     final String text = data['text'] ?? data['id'] ?? '';
@@ -68,9 +67,8 @@ class _FooterState extends State<Footer> {
           child: Container(
             width: 48,
             height: 48,
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(padd),
             decoration: BoxDecoration(
-              // color: backgroundColor,
               borderRadius: BorderRadius.circular(8),
               boxShadow: [
                 BoxShadow(
@@ -82,10 +80,8 @@ class _FooterState extends State<Footer> {
             ),
             child: Stack(
               children: [
-                // if (backgroundColor == Colors.white)
                 Container(
                   decoration: BoxDecoration(
-                    // color: backgroundColor,
                     borderRadius: BorderRadius.circular(4),
                   ),
                 ),

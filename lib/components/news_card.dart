@@ -124,19 +124,19 @@ class _NewsCardState extends State<NewsCard> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Logo at the top center
               Center(
                 child: SvgPicture.asset(
                   widget.news.logo,
-                  height: 60,
-                  colorFilter: ColorFilter.mode(
-                    isDarkMode ? Colors.white : Colors.black,
-                    BlendMode.srcIn,
-                  ),
+                  height: widget.news.column != null ? 40 : 60,
+                  colorFilter: widget.news.column != null
+                      ? ColorFilter.mode(
+                          isDarkMode ? Colors.white : Colors.black,
+                          BlendMode.srcIn,
+                        )
+                      : null,
                 ),
               ),
               const SizedBox(height: 16),
-              // Column text if exists
               if (widget.news.column != null &&
                   widget.news.column!.isNotEmpty) ...[
                 Text(

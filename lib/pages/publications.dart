@@ -178,33 +178,41 @@ class _PublicationsPageState extends State<PublicationsPage> {
 
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
-    return Scaffold(
-      backgroundColor: isDarkMode ? Colors.black : Colors.grey[100],
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: publications
-              .map((publication) => Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        child: Text(
-                          publication.year,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color:
-                                isDarkMode ? Colors.red[500] : Colors.red[900],
+    return SingleChildScrollView(
+      primary: false, // Prevents conflict with primary scroll controller
+      physics: const NeverScrollableScrollPhysics(), // Disable outer scrolling
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height,
+        child: Scaffold(
+          backgroundColor: isDarkMode ? Colors.black : Colors.grey[100],
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              children: publications
+                  .map((publication) => Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            child: Text(
+                              publication.year,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                                color: isDarkMode
+                                    ? Colors.red[500]
+                                    : Colors.red[900],
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      ...publication.articles
-                          .map((article) => _buildArticleCard(article)),
-                    ],
-                  ))
-              .toList(),
+                          ...publication.articles
+                              .map((article) => _buildArticleCard(article)),
+                        ],
+                      ))
+                  .toList(),
+            ),
+          ),
         ),
       ),
     );

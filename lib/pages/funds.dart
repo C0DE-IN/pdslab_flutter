@@ -9,14 +9,35 @@ class FundsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Funds Data')),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            _buildFundsSection(context),
-            _buildPdsFundsSection(context),
-          ],
+    return SingleChildScrollView(
+      primary: false,
+      physics: const NeverScrollableScrollPhysics(),
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height,
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  color: Theme.of(context).primaryColor,
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: const Center(
+                    child: Text(
+                      'Funds Data',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+                _buildFundsSection(context),
+                _buildPdsFundsSection(context),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -59,40 +80,78 @@ class FundsPage extends StatelessWidget {
   }
 
   Widget _buildCardGrid(BuildContext context, List<AgencyModel> data) {
+    final double width = MediaQuery.of(context).size.width;
+
+    int crossAxisCount;
+    if (width < 600) {
+      crossAxisCount = 1;
+    } else if (width < 1024) {
+      crossAxisCount = 2;
+    } else {
+      crossAxisCount = 3;
+    }
+
+    double aspectRatio;
+    if (crossAxisCount == 1) {
+      aspectRatio = 1.2;
+    } else {
+      aspectRatio = 1.0;
+    }
+
     return GridView.builder(
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
+      padding: const EdgeInsets.all(16),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: MediaQuery.of(context).size.width > 600 ? 3 : 1,
-        childAspectRatio: 1,
+        crossAxisCount: crossAxisCount,
+        childAspectRatio: aspectRatio,
+        crossAxisSpacing: 16,
+        mainAxisSpacing: 16,
       ),
       itemCount: data.length,
       itemBuilder: (context, index) {
         return Card(
+          elevation: 4,
           color: Theme.of(context).colorScheme.primary,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SvgPicture.asset(
-                  data[index].logo,
-                  height: 200,
-                  colorFilter: ColorFilter.mode(
-                    Theme.of(context).colorScheme.onPrimary,
-                    BlendMode.srcIn,
-                  ),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      flex: 3,
+                      child: Center(
+                        child: SvgPicture.asset(
+                          data[index].logo,
+                          height: crossAxisCount == 1 ? 150 : 200,
+                          fit: BoxFit.contain,
+                          colorFilter: ColorFilter.mode(
+                            Theme.of(context).colorScheme.onPrimary,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Center(
+                        child: Text(
+                          data[index].title,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: crossAxisCount == 1 ? 16 : 18,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.onPrimary,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 8),
-                Text(
-                  data[index].title,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).colorScheme.onPrimary,
-                  ),
-                ),
-              ],
-            ),
+              );
+            },
           ),
         );
       },

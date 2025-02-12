@@ -11,25 +11,6 @@
         "summary":["Nanoparticles with enzyme-like activity gained significant importance in therapeutic applications against oxidative stress-related disorders. Particularly, nanozymes having multiple SOD and GPx activity attracted greater attention recently. These nanoenzymes mimic cellular antioxidant enzymes and protect biomolecules against ROS. Therefore, the synthesis of a novel nanomaterial with robust antioxidant property is of significant biomedical importance. Therefore, the present study focused on to synthesize a novel ZnO and Cu-doped ZnO (Cu-ZnO) based nanoparticles to mimic the SOD enzyme. The Cu-doped ZnO nanoparticles were synthesized successfully by Chemical Precipitation/Co-precipitation method and the doping were confirmed by spectroscopic methods including, SEM, TEM, Raman Spectroscopy, PXRD and XPS. In vitro studies highlight that, the Cu-doped ZnO nanoparticles did not exhibit robust SOD activity as compared to earlier reported Mn3O4 based nanozymes. Therefore, additional methodologies are currently employed to synthesize different morphology-based nanoparticles of Cu-doped with ZnO."]
     },
     {
-        "name": "Gautam Susarla",
-        "imgSrc": "lib/assets/images/people/gautam.jpg",
-        "position": "Integrated PhD Student",
-        "email": "",
-        "credentials": [
-            "B.Sc Life Sciences, Osmania University, Hyderabad, Telangana"
-        ],
-        "summary": ["My work involves the analysis of yeast DJ-1 homologs which are multifunctional and provides stress tolerance, however they are under studied and its investigation would unravel key features of human DJ-1. Reactive carbonyls such as methylglyoxal and glyoxal generated during various metabolism have deleterious effects on vital components of cell. Therefore, my project comprises detailed study of Saccharomyces cerevisiae Hsp31 proteins in regulating carbonyl toxicity."],
-        "fellowships": "IISc Fellowship"
-    },
-    {
-        "name": "Priyanka Kataria",
-        "imgSrc": "lib/assets/images/people/priyanka.jpg",
-        "position": "Integrated PhD Student",
-        "credentials": ["B.Sc. Botany Hons. Daulat Ram College, University of Delhi"],
-        "summary": ["Plants being sessile organisms are constantly exposed to different abiotic and biotic stresses, hence they have evolved various strategies to overcome these deleterious conditions. DJ-1 superfamily proteins are found across various species, they have been identified as multi-stress responding proteins. However, role of DJ-1 family proteins in plants is still elusive. My research project is to understand the structural and functional role of DJ-1 paralogs of Arabidopsis thaliana."],
-        "fellowships": "IISc Fellowship"
-    },
-    {
         "name": "Anjali Deep",
         "imgSrc": "lib/assets/images/people/anjali.jpg",
         "position": "Integrated PhD Student",

@@ -5,7 +5,8 @@
         "color":"#00D5AE",
         "txtColor":"#FFFFFF",
         "text":"Research Gate",
-        "id":"ResearchGate"
+        "id":"ResearchGate",
+        "padding":8.0
     },
     {
         "imgSrc": "lib/assets/logos/google_scholar.svg",
@@ -13,14 +14,16 @@
         "color":"#FFFFFF",
         "txtColor":"#767676",
         "text":"Google Scholar",
-        "id":"GoogleScholar"
+        "id":"GoogleScholar",
+        "padding":8.0
     },
     {
         "imgSrc": "lib/assets/logos/linkedin.svg",
         "link": "https://in.linkedin.com/in/patrick-d-silva-5a174321",
         "color":"#0A66C2",
         "txtColor":"#FFFFFF",
-        "id":"Linkedin"
+        "id":"Linkedin",
+        "padding":8.0
     },
     {
         "imgSrc": "lib/assets/logos/facebook.svg",
@@ -28,7 +31,8 @@
         "color":"#4867AA",
         "txtColor":"#FFFFFF",
         "text":"Facebook",
-        "id":"Facebook"
+        "id":"Facebook",
+        "padding":0
     },
     {
         "imgSrc": "lib/assets/logos/twitter.svg",
@@ -36,6 +40,7 @@
         "color":"#FFFFFF",
         "txtColor":"#2FCDFF",
         "text":"Twitter",
-        "id":"Twitter"
+        "id":"Twitter",
+        "padding":12.0
     }
 ]

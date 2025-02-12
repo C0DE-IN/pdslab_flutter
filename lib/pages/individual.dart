@@ -55,22 +55,30 @@ class Individual extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(name),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.close),
-            onPressed: () {
-              context.go('/people');
-            },
+    return SingleChildScrollView(
+      primary: false, // Prevents conflict with primary scroll controller
+      physics: const NeverScrollableScrollPhysics(), // Disable outer scrolling
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height,
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(name),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.close),
+                onPressed: () {
+                  context.go('/people');
+                },
+              ),
+            ],
           ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: name == 'patrick-d-silva'
-            ? _buildPiCard(context)
-            : _buildPeopleCard(context),
+          body: SingleChildScrollView(
+            // Inner scrolling enabled
+            child: name == 'patrick-d-silva'
+                ? _buildPiCard(context)
+                : _buildPeopleCard(context),
+          ),
+        ),
       ),
     );
   }

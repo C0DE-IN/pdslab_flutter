@@ -11,25 +11,35 @@ class PeoplePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            _buildSegment(context, 'PI', 'lib/assets/data/people/pi_data.json'),
-            _buildSegment(
-                context, 'PDFs', 'lib/assets/data/people/pdfs_data.json'),
-            _buildSegment(
-                context, 'PhDs', 'lib/assets/data/people/phds_data.json'),
-            _buildSegment(
-                context, 'MSc', 'lib/assets/data/people/mscs_data.json'),
-            _buildSegment(
-                context, 'Staff', 'lib/assets/data/people/staffs_data.json'),
-            _buildSegment(
-                context, 'Alumnus', 'lib/assets/data/people/alumnus_data.json'),
-            _buildSegment(context, 'Alumnus Staff',
-                'lib/assets/data/people/alumnus_staff_data.json'),
-          ],
+    return SingleChildScrollView(
+      primary: false, // Prevents conflict with primary scroll controller
+      physics: const NeverScrollableScrollPhysics(), // Disable outer scrolling
+      child: SizedBox(
+        // Constrain height to viewport
+        height: MediaQuery.of(context).size.height,
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: SingleChildScrollView(
+            // Inner scrolling enabled
+            child: Column(
+              children: [
+                _buildSegment(
+                    context, 'PI', 'lib/assets/data/people/pi_data.json'),
+                _buildSegment(
+                    context, 'PDFs', 'lib/assets/data/people/pdfs_data.json'),
+                _buildSegment(
+                    context, 'PhDs', 'lib/assets/data/people/phds_data.json'),
+                _buildSegment(
+                    context, 'MSc', 'lib/assets/data/people/mscs_data.json'),
+                _buildSegment(context, 'Staff',
+                    'lib/assets/data/people/staffs_data.json'),
+                _buildSegment(context, 'Alumnus',
+                    'lib/assets/data/people/alumnus_data.json'),
+                _buildSegment(context, 'Alumnus Staff',
+                    'lib/assets/data/people/alumnus_staff_data.json'),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -171,13 +181,34 @@ class PeoplePage extends StatelessWidget {
 
   Widget _buildCardGrid(BuildContext context, List<PeopleModel> data) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final width = MediaQuery.of(context).size.width;
+
+    // Determine grid layout based on screen width
+    int crossAxisCount;
+    double childAspectRatio;
+    double fontSize;
+
+    if (width < 600) {
+      crossAxisCount = 1; // Mobile: single column
+      childAspectRatio = 0.85;
+      fontSize = 14;
+    } else if (width < 1024) {
+      crossAxisCount = 2; // Tablet: two columns
+      childAspectRatio = 0.8;
+      fontSize = 15;
+    } else {
+      crossAxisCount = 3; // Desktop: three columns
+      childAspectRatio = 0.75;
+      fontSize = 16;
+    }
 
     return GridView.builder(
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        childAspectRatio: 0.75,
+      padding: const EdgeInsets.all(16),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: crossAxisCount,
+        childAspectRatio: childAspectRatio,
         mainAxisSpacing: 16.0,
         crossAxisSpacing: 16.0,
       ),
@@ -214,23 +245,28 @@ class PeoplePage extends StatelessWidget {
                         child: Container(
                           color: Colors.black54,
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 8.0, vertical: 8.0),
+                            horizontal: 8.0,
+                            vertical: 8.0,
+                          ),
                           child: Column(
                             children: [
                               Text(
                                 data[index].name,
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 16,
+                                  fontSize: fontSize,
                                   fontWeight: FontWeight.bold,
                                 ),
+                                textAlign: TextAlign.center,
                               ),
+                              const SizedBox(height: 4),
                               Text(
                                 data[index].position,
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 14,
+                                  fontSize: fontSize - 2,
                                 ),
+                                textAlign: TextAlign.center,
                               ),
                             ],
                           ),
