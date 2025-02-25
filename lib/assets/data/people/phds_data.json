@@ -1,7 +1,7 @@
  [
     {
         "name": "Sanjay Prasad",
-        "imgSrc": "lib/assets/images/people/sanjay.jpg",
+        "imgSrc": "lib/assets/images/people/sanjay.webp",
         "position": "PhD Student",
         "credentials": [
             "B.Pharma.: Muzaffarpur Institute of Technology, Bihar University, Muzaffarpur",
@@ -12,7 +12,7 @@
     },
     {
         "name": "Anjali Deep",
-        "imgSrc": "lib/assets/images/people/anjali.jpg",
+        "imgSrc": "lib/assets/images/people/anjali.webp",
         "position": "Integrated PhD Student",
         "credentials": ["BSc (hons) in zoology, Hansraj College, Delhi University."],
         "fellowships": "IISc Fellowship",
@@ -20,13 +20,13 @@
     },
     {
         "name": "Sananda Biswas",
-        "imgSrc": "lib/assets/images/people/sananda.jpg",
+        "imgSrc": "lib/assets/images/people/sananda.webp",
         "position": "PhD Student",
         "summary":["Mitochondria are dynamic organelles that maintain a fusion-fission balance in response to cellular cues. Maintenance of a balanced fission-fusion cycle is necessary for cellular homeostasis and stress adaptation. Perturbed mitochondrial dynamics have been reported to cause nerodegenerative disorders, cancer, and metabolic diseases. Studies in our lab, using Saccharomyces cerevisiae as the model organism, indicate the role of Hsp31 mini-family proteins in maintaining mitochondrial dynamics and redox homeostasis. My work majorly focuses on understanding the mechanism by which Hsp31 mini-family proteins contribute to the maintenance of mitochondrial dynamics, redox status, and overall cellular health."]
     },
     {
         "name": "Aishita Chakraborty",
-        "imgSrc": "lib/assets/images/people/aishita.jpg",
+        "imgSrc": "lib/assets/images/people/aishita.webp",
         "position": "PhD Student",
         "credentials": [
             "B.Sc in Microbiology (Hons.), Surendranath College, University of Calcutta",
@@ -37,18 +37,18 @@
     },
     {
         "name": "Aakansha Paliwal",
-        "imgSrc": "lib/assets/images/people/akansha.jpg",
+        "imgSrc": "lib/assets/images/people/akansha.webp",
         "position": "PhD Student",
         "fellowships": "PMRF fellowship"
     },
     {
         "name": "Ashutosh Narayan Bhasker",
-        "imgSrc": "lib/assets/images/people/ashutosh.jpg",
+        "imgSrc": "lib/assets/images/people/ashutosh.webp",
         "position": "Integrated PhD Student"
     },
     {
         "name": "Muskan Agarwal",
-        "imgSrc": "lib/assets/images/people/muskan.jpg",
+        "imgSrc": "lib/assets/images/people/muskan.webp",
         "position": "PhD Student",
         "credentials": [
             "Bsc. (Hons.) Biochemistry from Aligarh Muslim University",
@@ -57,7 +57,7 @@
     },
     {
         "name": "Shruti Agarwal",
-        "imgSrc": "lib/assets/images/people/sruthi.jpg",
+        "imgSrc": "lib/assets/images/people/sruthi.webp",
         "position": "PhD Student",
         "credentials": [
             "B.Sc. in Zoology Honours, South Calcutta Girls College, University of Calcutta",

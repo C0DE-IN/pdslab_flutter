@@ -39,7 +39,7 @@ class _ModelSectionState extends State<ModelSection> {
       // Group images by their folder
       final modelPaths = manifestMap.keys.where((String key) =>
           key.startsWith('lib/assets/images/models/') &&
-          (key.toLowerCase().endsWith('.jpg') ||
+          (key.toLowerCase().endsWith('.webp') ||
               key.toLowerCase().endsWith('.jpeg') ||
               key.toLowerCase().endsWith('.png')));
 
@@ -53,14 +53,15 @@ class _ModelSectionState extends State<ModelSection> {
         setState(() {
           isLoading = false;
         });
-        
+
         // Jump to middle set of items
         if (modelFolderImages.isNotEmpty) {
-          final middleIndex = (modelFolderImages.length * (_duplicateCount ~/ 2));
+          final middleIndex =
+              (modelFolderImages.length * (_duplicateCount ~/ 2));
           _pageController.jumpToPage(middleIndex);
           _currentPage = middleIndex;
         }
-        
+
         _startAutoScroll();
       }
     } catch (e) {
@@ -90,13 +91,14 @@ class _ModelSectionState extends State<ModelSection> {
 
   void _handlePageChange(int page) {
     setState(() => _currentPage = page);
-    
+
     final itemCount = modelFolderImages.length;
     if (itemCount <= 1) return;
 
     // If we're at the end of the duplicated sets, jump to the middle set
     if (page >= itemCount * (_duplicateCount - 1)) {
-      final middleIndex = itemCount * (_duplicateCount ~/ 2) + (page % itemCount);
+      final middleIndex =
+          itemCount * (_duplicateCount ~/ 2) + (page % itemCount);
       _pageController.jumpToPage(middleIndex);
       _currentPage = middleIndex;
     }
@@ -157,9 +159,11 @@ class _ModelSectionState extends State<ModelSection> {
 
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final folders = modelFolderImages.entries.toList();
-    
+
     // Create duplicated list for infinite scroll
-    final duplicatedFolders = List.generate(_duplicateCount, (_) => folders).expand((x) => x).toList();
+    final duplicatedFolders = List.generate(_duplicateCount, (_) => folders)
+        .expand((x) => x)
+        .toList();
 
     return Container(
       color: isDarkMode ? Colors.grey[900] : Colors.grey[100],

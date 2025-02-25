@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'dart:convert';
 import 'package:pdslab/assets/data/people/people_model.dart';
 import 'package:pdslab/assets/data/people/pi_model.dart';
+import 'package:pdslab/assets/data/publication/publication_model.dart';
+import 'package:pdslab/components/article_card.dart';
 
 class Individual extends StatelessWidget {
   const Individual({super.key, required this.name});
@@ -37,20 +39,20 @@ class Individual extends StatelessWidget {
     return PiModel.fromJson(jsonData);
   }
 
-  Future<List<String>> _loadPublications(String person) async {
+  Future<List<Article>> _loadArticlesForPerson(String person) async {
     final String response = await rootBundle
         .loadString('lib/assets/data/publication/publication_data.json');
     final List<dynamic> jsonData = json.decode(response);
-    List<String> filteredPublications = [];
-
-    for (var yearData in jsonData) {
-      for (var article in yearData['articles']) {
-        if (article['authors'].contains(person)) {
-          filteredPublications.add(article['title']);
+    final List<Article> articles = [];
+    for (var publication in jsonData) {
+      for (var articleData in publication['articles']) {
+        // Adjust the condition as needed to match your data
+        if ((articleData['authors'] as List).contains(person)) {
+          articles.add(Article.fromJson(articleData as Map<String, dynamic>));
         }
       }
     }
-    return filteredPublications;
+    return articles;
   }
 
   @override
@@ -62,7 +64,7 @@ class Individual extends StatelessWidget {
         height: MediaQuery.of(context).size.height,
         child: Scaffold(
           appBar: AppBar(
-            title: Text(name),
+            // title: Text(name),
             actions: [
               IconButton(
                 icon: const Icon(Icons.close),
@@ -94,39 +96,61 @@ class Individual extends StatelessWidget {
               child: Text('Error loading data or person not found.'));
         } else {
           final person = snapshot.data!;
-          return FutureBuilder<List<String>>(
-            future: _loadPublications(person.name),
+          return FutureBuilder<List<Article>>(
+            future: _loadArticlesForPerson(person.name),
             builder: (context, pubSnapshot) {
               if (pubSnapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
               } else if (pubSnapshot.hasError) {
                 return const Center(child: Text('Error loading publications.'));
               } else {
-                final publications = pubSnapshot.data!;
+                final articles = pubSnapshot.data!;
                 return Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      // Person Info Card
                       Card(
                         child: Row(
                           children: [
                             Image.asset(
                               person.imgSrc!,
                               fit: BoxFit.cover,
-                              width: 150,
-                              height: 150,
+                              width: 240,
+                              height: 320,
                             ),
                             const SizedBox(width: 16),
                             Expanded(
                               child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('Position: ${person.position}',
-                                      style: const TextStyle(fontSize: 20)),
-                                  const SizedBox(height: 10),
-                                  Text('Details about ${person.name}...',
-                                      style: const TextStyle(fontSize: 16)),
+                                  Text(
+                                    person.name,
+                                    style: const TextStyle(fontSize: 36),
+                                  ),
+                                  Text(
+                                    person.position,
+                                    style: const TextStyle(fontSize: 20),
+                                  ),
+                                  if (person.fellowships != null &&
+                                      person.fellowships!.isNotEmpty)
+                                    Text(
+                                      'Fellowships: ${person.fellowships}',
+                                      style: const TextStyle(fontSize: 20),
+                                    ),
+                                  if (person.credentials != null &&
+                                      person.credentials!.isNotEmpty) ...[
+                                    const SizedBox(height: 10),
+                                    const Text(
+                                      'Credentials:',
+                                      style: TextStyle(fontSize: 20),
+                                    ),
+                                    ...person.credentials!
+                                        .map((cred) => Text(cred))
+                                        .toList(),
+                                  ],
                                 ],
                               ),
                             ),
@@ -134,16 +158,33 @@ class Individual extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      if (person.summary != null)
+                      // Research Summary Section
+                      if (person.summary != null && person.summary!.isNotEmpty)
                         Card(
                           child: Padding(
                             padding: const EdgeInsets.all(16.0),
-                            child: Text('Research Summary: ${person.summary}',
-                                style: const TextStyle(fontSize: 16)),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text('Research Summary:',
+                                    style: TextStyle(fontSize: 20)),
+                                const SizedBox(height: 16),
+                                ...person.summary!.map(
+                                  (text) => Padding(
+                                    padding: const EdgeInsets.only(bottom: 8.0),
+                                    child: Text(
+                                      text,
+                                      style: const TextStyle(fontSize: 16),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       const SizedBox(height: 16),
-                      if (publications.isNotEmpty)
+                      // Publications Section
+                      if (articles.isNotEmpty)
                         Card(
                           child: Padding(
                             padding: const EdgeInsets.all(16.0),
@@ -152,7 +193,11 @@ class Individual extends StatelessWidget {
                               children: [
                                 const Text('Publications:',
                                     style: TextStyle(fontSize: 20)),
-                                ...publications.map((pub) => Text(pub)),
+                                const SizedBox(height: 16),
+                                ...articles
+                                    .map((article) =>
+                                        buildArticleCard(context, article))
+                                    .toList(),
                               ],
                             ),
                           ),
@@ -176,42 +221,57 @@ class Individual extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError || snapshot.data == null) {
           return const Center(
-              child: Text('Error loading data or person not found.'));
+              child: Text('Error loading PI data or PI not found.'));
         } else {
-          final person = snapshot.data!;
-          return FutureBuilder<List<String>>(
-            future: _loadPublications(person.name.split('-').first),
+          final piData = snapshot.data!;
+          return FutureBuilder<List<Article>>(
+            future: _loadArticlesForPerson(
+                piData.name), // Use PI's name as identifier
             builder: (context, pubSnapshot) {
               if (pubSnapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
               } else if (pubSnapshot.hasError) {
                 return const Center(child: Text('Error loading publications.'));
               } else {
-                final publications = pubSnapshot.data!;
+                final articles = pubSnapshot.data!;
                 return Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      // Display PI image and credentials
                       Card(
                         child: Row(
                           children: [
                             Image.asset(
-                              person.imgSrc!,
-                              fit: BoxFit.cover,
-                              width: 150,
-                              height: 150,
+                              piData.imgSrc!,
+                              fit: BoxFit.fitHeight,
+                              height: 420.0,
+                              width: 380.0,
+                              alignment: Alignment.topCenter,
                             ),
                             const SizedBox(width: 16),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('Position: ${person.position}',
-                                      style: const TextStyle(fontSize: 20)),
+                                  Text(
+                                    '${piData.position} ${piData.name}',
+                                    style: const TextStyle(fontSize: 36),
+                                  ),
                                   const SizedBox(height: 10),
-                                  Text('Details about ${person.name}...',
-                                      style: const TextStyle(fontSize: 16)),
+                                  if (piData.credentials != null)
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const Text('Credentials:',
+                                            style: TextStyle(fontSize: 20)),
+                                        ...piData.credentials!
+                                            .map((cred) => Text(cred))
+                                            .toList(),
+                                      ],
+                                    ),
                                 ],
                               ),
                             ),
@@ -219,44 +279,29 @@ class Individual extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      if (person.credentials != null)
+                      // Optionally display PI summary if available
+                      if (piData.summary != null)
                         Card(
                           child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text('Credentials:',
-                                    style: TextStyle(fontSize: 20)),
-                                ...person.credentials!
-                                    .map((cred) => Text(cred)),
-                              ],
-                            ),
-                          ),
-                        ),
-                      const SizedBox(height: 16),
-                      if (person.summary != null)
-                        Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
+                            padding: const EdgeInsets.all(20.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const Text('Research Summary:',
                                     style: TextStyle(fontSize: 20)),
-                                ...person.summary!.map((content) {
+                                const SizedBox(height: 16),
+                                ...piData.summary!.map((content) {
                                   return Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
+                                      ...content.text.map((text) => Text(text)),
+                                      const SizedBox(height: 16),
                                       if (content.list != null)
                                         Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Text('${content.list!.title}:',
-                                                style: const TextStyle(
-                                                    fontSize: 18)),
                                             DataTable(
                                               columns: const [
                                                 DataColumn(
@@ -270,11 +315,15 @@ class Individual extends StatelessWidget {
                                                       ))
                                                   .toList(),
                                             ),
+                                            const SizedBox(height: 16),
                                           ],
                                         ),
                                       if (content.imgSrc != null)
-                                        Image.asset(content.imgSrc!),
-                                      ...content.text.map((text) => Text(text)),
+                                        Image.asset(
+                                          content.imgSrc!,
+                                          fit: BoxFit.fitWidth,
+                                          alignment: Alignment.topCenter,
+                                        ),
                                     ],
                                   );
                                 }),
@@ -283,37 +332,8 @@ class Individual extends StatelessWidget {
                           ),
                         ),
                       const SizedBox(height: 16),
-                      if (person.awards != null)
-                        Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text('Awards:',
-                                    style: TextStyle(fontSize: 20)),
-                                DataTable(
-                                  columns: const [
-                                    DataColumn(label: Text('Name')),
-                                    DataColumn(label: Text('Year')),
-                                    DataColumn(label: Text('From')),
-                                  ],
-                                  rows: person.awards!
-                                      .map((award) => DataRow(
-                                            cells: [
-                                              DataCell(Text(award.name)),
-                                              DataCell(Text(award.year)),
-                                              DataCell(Text(award.from)),
-                                            ],
-                                          ))
-                                      .toList(),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      const SizedBox(height: 16),
-                      if (publications.isNotEmpty)
+                      // Publications section using _buildArticleCard
+                      if (articles.isNotEmpty)
                         Card(
                           child: Padding(
                             padding: const EdgeInsets.all(16.0),
@@ -322,7 +342,9 @@ class Individual extends StatelessWidget {
                               children: [
                                 const Text('Publications:',
                                     style: TextStyle(fontSize: 20)),
-                                ...publications.map((pub) => Text(pub)),
+                                const SizedBox(height: 16),
+                                ...articles.map((article) =>
+                                    buildArticleCard(context, article)),
                               ],
                             ),
                           ),

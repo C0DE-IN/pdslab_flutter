@@ -112,17 +112,6 @@ class _ImageCarouselState extends State<ImageCarousel> {
                         width: screenSize.width * 0.9,
                         height: screenSize.height * 0.85,
                         margin: const EdgeInsets.symmetric(horizontal: 10),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16),
-                          color: Colors.black.withOpacity(0.05),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.2),
-                              blurRadius: 8,
-                              offset: const Offset(0, 4),
-                            ),
-                          ],
-                        ),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(16),
                           child: LayoutBuilder(

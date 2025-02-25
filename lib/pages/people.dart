@@ -23,19 +23,19 @@ class PeoplePage extends StatelessWidget {
             // Inner scrolling enabled
             child: Column(
               children: [
-                _buildSegment(
-                    context, 'PI', 'lib/assets/data/people/pi_data.json'),
-                _buildSegment(
-                    context, 'PDFs', 'lib/assets/data/people/pdfs_data.json'),
-                _buildSegment(
-                    context, 'PhDs', 'lib/assets/data/people/phds_data.json'),
-                _buildSegment(
-                    context, 'MSc', 'lib/assets/data/people/mscs_data.json'),
-                _buildSegment(context, 'Staff',
+                _buildSegment(context, 'Principal Investigator',
+                    'lib/assets/data/people/pi_data.json'),
+                _buildSegment(context, 'Post Doctoral Fellow',
+                    'lib/assets/data/people/pdfs_data.json'),
+                _buildSegment(context, 'PhD Students',
+                    'lib/assets/data/people/phds_data.json'),
+                _buildSegment(context, 'Masters Student',
+                    'lib/assets/data/people/mscs_data.json'),
+                _buildSegment(context, 'Project Staffs',
                     'lib/assets/data/people/staffs_data.json'),
-                _buildSegment(context, 'Alumnus',
+                _buildSegment(context, 'Alumni',
                     'lib/assets/data/people/alumnus_data.json'),
-                _buildSegment(context, 'Alumnus Staff',
+                _buildSegment(context, 'Alumni Staffs',
                     'lib/assets/data/people/alumnus_staff_data.json'),
               ],
             ),
@@ -46,7 +46,7 @@ class PeoplePage extends StatelessWidget {
   }
 
   Widget _buildSegment(BuildContext context, String title, String dataPath) {
-    if (title == 'PI') {
+    if (title == 'Principal Investigator') {
       return FutureBuilder<PiModel>(
         future: _loadPiJsonData(dataPath),
         builder: (context, snapshot) {
@@ -69,7 +69,7 @@ class PeoplePage extends StatelessWidget {
           }
         },
       );
-    } else if (title == 'Alumnus' || title == 'Alumnus Staff') {
+    } else if (title == 'Alumni' || title == 'Alumni Staffs') {
       return FutureBuilder<List<AlumniModel>>(
         future: _loadAlumniData(dataPath),
         builder: (context, snapshot) {

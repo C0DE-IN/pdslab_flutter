@@ -1,7 +1,7 @@
  [
     {
         "name": "Vigneshwaran",
-        "imgSrc": "lib/assets/images/people/vicky.jpg",
+        "imgSrc": "lib/assets/images/people/vicky.webp",
         "position": "Project Associate II",
         "email": "",
         "credentials": [
@@ -11,7 +11,7 @@
     },
     {
         "name": "Saravanaraja",
-        "imgSrc": "lib/assets/images/people/saravana.jpg",
+        "imgSrc": "lib/assets/images/people/saravana.webp",
         "position": "Project Associate II",
         "email": "",
         "credentials": [

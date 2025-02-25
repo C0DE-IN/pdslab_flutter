@@ -35,7 +35,7 @@ class _HomeState extends State<Home> {
 
       final List<String> images = List.generate(
         23,
-        (index) => 'lib/assets/images/album/${index + 1}.jpg',
+        (index) => 'lib/assets/images/album/${index + 1}.webp',
       );
 
       setState(() {

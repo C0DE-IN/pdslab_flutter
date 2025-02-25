@@ -34,7 +34,7 @@ class MyApp extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       builder: (context, child) {
         return BackgroundContainer(
-          backgroundImage: 'lib/assets/images/bg/bg.jpg',
+          backgroundImage: 'lib/assets/images/bg/bg.webp',
           child: child ?? const SizedBox(),
         );
       },

@@ -1,6 +1,6 @@
  [
     {
-        "imgSrc": "lib/assets/images/parallax/1.jpg",
+        "imgSrc": "lib/assets/images/parallax/1.webp",
         "heading": "Protein Translocation & Mitochondria Biogenesis.",
         "textItems": [
             {
@@ -24,7 +24,7 @@
         ]
     },
     {
-        "imgSrc": "lib/assets/images/parallax/2.png",
+        "imgSrc": "lib/assets/images/parallax/2.webp",
         "heading": "Folding in Cell: Mechanism and Regulation",
         "textItems": [
             {
@@ -36,7 +36,7 @@
         ]
     },
     {
-        "imgSrc": "lib/assets/images/parallax/3.png",
+        "imgSrc": "lib/assets/images/parallax/3.webp",
         "heading": "Iron-Sulphur Clusters (Fe/S centres) Biogenesis",
         "textItems": [
             {
@@ -48,7 +48,7 @@
         ]
     },
     {
-        "imgSrc": "lib/assets/images/parallax/4.png",
+        "imgSrc": "lib/assets/images/parallax/4.webp",
         "heading": "Redox Biology and Nanomaterial Therapeutics.",
         "textItems": [
             {

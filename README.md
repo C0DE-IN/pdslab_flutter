@@ -14,3 +14,8 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+## command to convert images to webp
+sudo apt-get install webp
+
+for file in *.jpg *.jpeg *.png; do cwebp "$file" -o "${file%.*}.webp"; done
