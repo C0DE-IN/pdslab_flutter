@@ -55,7 +55,7 @@ class _PublicationsPageState extends State<PublicationsPage> {
       child: SizedBox(
         height: MediaQuery.of(context).size.height,
         child: Scaffold(
-          backgroundColor: isDarkMode ? Colors.black : Colors.grey[100],
+          backgroundColor: Theme.of(context).colorScheme.surface,
           body: SingleChildScrollView(
             padding: const EdgeInsets.all(16),
             child: Column(

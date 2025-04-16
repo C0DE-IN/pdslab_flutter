@@ -19,14 +19,14 @@ class ContactPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    // final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final screenWidth = MediaQuery.of(context).size.width;
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
-            color: isDarkMode ? Colors.grey[900] : Colors.white,
+            color: Theme.of(context).colorScheme.surface,
             padding:
                 const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
             child: const Text(
@@ -83,12 +83,12 @@ class ContactPage extends StatelessWidget {
   }
 
   Widget _buildContactCard(BuildContext context, ContactModel contact) {
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    // final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Card(
       elevation: 4,
-      color: isDarkMode ? Colors.grey[900] : Colors.white,
+      color: Theme.of(context).colorScheme.primary,
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 32.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

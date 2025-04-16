@@ -2,20 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:pdslab/assets/data/publication/publication_model.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:pdslab/components/glass_container.dart';
 
 Widget buildArticleCard(BuildContext context, Article article) {
   final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
-  return Container(
+  return GlassContainer(
     margin: const EdgeInsets.only(bottom: 16),
     padding: const EdgeInsets.all(16),
-    decoration: BoxDecoration(
-      color: isDarkMode ? Colors.grey[900] : Colors.white,
-      borderRadius: BorderRadius.circular(8),
-      border: Border.all(
-        color: isDarkMode ? Colors.grey[800]! : Colors.grey[300]!,
-      ),
-    ),
+    borderRadius: BorderRadius.circular(12),
+    backgroundColor: Theme.of(context).colorScheme.primary,
+    borderColor: isDarkMode ? Colors.grey[800] : Colors.grey[300],
+    opacity: isDarkMode ? 0.15 : 0.7,
+    blur: isDarkMode ? 15 : 10,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -115,13 +114,17 @@ Widget _buildGlowButton({required String name, required String link}) {
       style: ElevatedButton.styleFrom(
         backgroundColor: name == 'Highlight'
             ? Colors.amber.withOpacity(0.2)
-            : Colors.blue.withOpacity(0.2),
-        foregroundColor: name == 'Highlight' ? Colors.amber : Colors.blue,
+            : const Color.fromARGB(255, 251, 99, 39).withOpacity(0.2),
+        foregroundColor: name == 'Highlight'
+            ? const Color.fromARGB(255, 66, 51, 8)
+            : const Color.fromARGB(255, 232, 232, 232),
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
           side: BorderSide(
-            color: name == 'Highlight' ? Colors.amber : Colors.blue,
+            color: name == 'Highlight'
+                ? const Color.fromARGB(255, 255, 7, 222)
+                : const Color.fromARGB(255, 201, 50, 105),
             width: 1,
           ),
         ),

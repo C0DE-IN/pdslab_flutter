@@ -11,16 +11,41 @@ final GoRouter _router = GoRouter(
   routes: [
     ShellRoute(
       builder: (context, state, child) {
+        final isDarkMode = Theme.of(context).brightness == Brightness.dark;
         return Scaffold(
-          body: SafeArea(
-            child: Column(
-              children: [
-                Expanded(
-                  child:
-                      NavBar(title: 'Mitochondrial Biology Lab', child: child),
+          backgroundColor: Colors.transparent,
+          body: Stack(
+            children: [
+              // Background layer with gradient overlay
+              Positioned.fill(
+                child: Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: const AssetImage('lib/assets/images/bg/bg.webp'),
+                      fit: BoxFit.cover,
+                      opacity: isDarkMode ? 0.12 : 0.2,
+                      colorFilter: ColorFilter.mode(
+                        Theme.of(context)
+                            .colorScheme
+                            .background
+                            .withOpacity(0.85),
+                        BlendMode.overlay,
+                      ),
+                    ),
+                  ),
                 ),
-              ],
-            ),
+              ),
+              // Content layer with proper padding
+              SafeArea(
+                child: NavBar(
+                  title: 'Mitochondrial Biology Lab',
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: child,
+                  ),
+                ),
+              ),
+            ],
           ),
         );
       },

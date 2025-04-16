@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:pdslab/assets/data/news/news_model.dart';
+import 'package:pdslab/components/glass_container.dart';
 
 class NewsCard extends StatefulWidget {
   final NewsModel news;
@@ -114,77 +115,81 @@ class _NewsCardState extends State<NewsCard> {
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
-    return Card(
-      elevation: 4,
+    return GlassContainer(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: InkWell(
-        onTap: _launchURL,
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: SvgPicture.asset(
-                  widget.news.logo,
-                  height: widget.news.column != null ? 40 : 60,
-                  colorFilter: widget.news.column != null
-                      ? ColorFilter.mode(
-                          isDarkMode ? Colors.white : Colors.black,
-                          BlendMode.srcIn,
-                        )
-                      : null,
+      borderRadius: BorderRadius.circular(12),
+      backgroundColor: Theme.of(context).colorScheme.primary,
+      borderColor: isDarkMode ? Colors.grey[800] : Colors.grey[300],
+      opacity: isDarkMode ? 0.15 : 0.7,
+      blur: isDarkMode ? 15 : 10,
+      child: Material(
+        type: MaterialType.transparency,
+        child: InkWell(
+          onTap: _launchURL,
+          borderRadius: BorderRadius.circular(12),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: SvgPicture.asset(
+                    widget.news.logo,
+                    height: widget.news.column != null ? 40 : 60,
+                    colorFilter: widget.news.column != null
+                        ? ColorFilter.mode(
+                            isDarkMode ? Colors.white : Colors.black,
+                            BlendMode.srcIn,
+                          )
+                        : null,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 16),
-              if (widget.news.column != null &&
-                  widget.news.column!.isNotEmpty) ...[
+                const SizedBox(height: 16),
+                if (widget.news.column != null &&
+                    widget.news.column!.isNotEmpty) ...[
+                  Text(
+                    _safeSubstring(widget.news.column!, columnIndex),
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                  const SizedBox(height: 8),
+                ],
                 Text(
-                  _safeSubstring(widget.news.column!, columnIndex),
-                  style: Theme.of(context).textTheme.bodyMedium,
+                  _safeSubstring(widget.news.headline, headlineIndex),
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                 ),
                 const SizedBox(height: 8),
-              ],
-              // Headline
-              Text(
-                _safeSubstring(widget.news.headline, headlineIndex),
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-              ),
-              const SizedBox(height: 8),
-              // Poster image for blog type
-              if (widget.news.type == 'blog' && widget.news.poster != null)
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Container(
-                    constraints: const BoxConstraints(
-                      maxWidth: 300,
-                      maxHeight: 200,
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: Image.asset(
-                        widget.news.poster!,
-                        fit: BoxFit.contain,
+                if (widget.news.type == 'blog' && widget.news.poster != null)
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                      constraints: const BoxConstraints(
+                        maxWidth: 300,
+                        maxHeight: 200,
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Image.asset(
+                          widget.news.poster!,
+                          fit: BoxFit.contain,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              const SizedBox(height: 8),
-              // Place and date at the bottom for paper type
-              if (widget.news.type == 'paper' &&
-                  widget.news.placeDate?.isNotEmpty == true) ...[
-                Text(
-                  _safeSubstring(widget.news.placeDate!, placeDateIndex),
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: isDarkMode ? Colors.grey[300] : Colors.grey[600],
-                      ),
-                ),
-                const SizedBox(height: 4),
+                if (widget.news.type == 'paper' &&
+                    widget.news.placeDate?.isNotEmpty == true) ...[
+                  const SizedBox(height: 8),
+                  Text(
+                    _safeSubstring(widget.news.placeDate!, placeDateIndex),
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
+                  ),
+                ],
               ],
-            ],
+            ),
           ),
         ),
       ),

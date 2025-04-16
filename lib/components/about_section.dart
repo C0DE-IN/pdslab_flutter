@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pdslab/assets/data/about/about_model.dart';
+import 'package:pdslab/components/glass_container.dart';
 
 class AboutSection extends StatefulWidget {
   const AboutSection({super.key});
@@ -64,46 +65,50 @@ class _AboutSectionState extends State<AboutSection> {
 
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
-      color: isDarkMode ? Colors.grey[900] : Colors.grey[100],
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Heading
-          Padding(
-            padding: const EdgeInsets.only(bottom: 24),
-            child: Text(
-              about!.heading,
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-            ),
-          ),
-          // Content
-          ...about!.content.map((paragraph) => Padding(
-                padding: const EdgeInsets.only(bottom: 16),
-                child: Text(
-                  paragraph,
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        height: 1.6,
-                        color: isDarkMode ? Colors.grey[300] : Colors.grey[800],
-                      ),
-                ),
-              )),
-          // Author if present
-          if (about!.author.isNotEmpty)
+    return GlassContainer(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      borderRadius: BorderRadius.circular(12),
+      backgroundColor: Theme.of(context).colorScheme.primary,
+      borderColor: isDarkMode ? Colors.grey[800] : Colors.grey[300],
+      opacity: isDarkMode ? 0.15 : 0.7,
+      blur: isDarkMode ? 15 : 10,
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
             Padding(
-              padding: const EdgeInsets.only(top: 16),
+              padding: const EdgeInsets.only(bottom: 24),
               child: Text(
-                '- ${about!.author}',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontStyle: FontStyle.italic,
-                      color: isDarkMode ? Colors.grey[400] : Colors.grey[700],
+                about!.heading,
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
                     ),
               ),
             ),
-        ],
+            ...about!.content.map((paragraph) => Padding(
+                  padding: const EdgeInsets.only(bottom: 16),
+                  child: Text(
+                    paragraph,
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          height: 1.6,
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
+                  ),
+                )),
+            if (about!.author.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(top: 16),
+                child: Text(
+                  '- ${about!.author}',
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontStyle: FontStyle.italic,
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }

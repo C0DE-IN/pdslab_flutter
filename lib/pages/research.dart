@@ -17,7 +17,7 @@ class _ResearchPageState extends State<ResearchPage> {
   int _currentIndex = 0;
   final List<GlobalKey> _sectionKeys = [];
   double _lastScrollPosition = 0;
-  bool _showFooter = false; // controls footer visibility
+  bool _showFooter = false;
 
   @override
   void initState() {
@@ -31,11 +31,9 @@ class _ResearchPageState extends State<ResearchPage> {
     });
 
     _scrollController.addListener(() {
-      // Check if we've scrolled near the bottom.
       if (_scrollController.hasClients) {
         final maxScroll = _scrollController.position.maxScrollExtent;
         final currentScroll = _scrollController.offset;
-        // Adjust threshold (e.g., within 100 pixels of the bottom)
         if (currentScroll >= maxScroll - 100) {
           if (!_showFooter) {
             setState(() {
@@ -103,11 +101,10 @@ class _ResearchPageState extends State<ResearchPage> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      primary: false, // Prevents conflict with primary scroll controller
-      physics: const NeverScrollableScrollPhysics(), // Disable outer scrolling
+      primary: false,
+      physics: const NeverScrollableScrollPhysics(),
       child: SizedBox(
-        height:
-            MediaQuery.of(context).size.height, // Constrain height to viewport
+        height: MediaQuery.of(context).size.height,
         child: Scaffold(
           body: FutureBuilder<List<ResearchModel>>(
             future: _researchData,
@@ -118,11 +115,15 @@ class _ResearchPageState extends State<ResearchPage> {
 
               return Stack(
                 children: [
-                  Image.asset(
-                    snapshot.data![_currentIndex].imgSrc,
-                    width: double.infinity,
-                    height: double.infinity,
-                    fit: BoxFit.contain,
+                  Container(
+                    color: Colors.white,
+                    child: Image.asset(
+                      snapshot.data![_currentIndex].imgSrc,
+                      width: double.infinity,
+                      height: double.infinity,
+                      fit: BoxFit.contain,
+                      // color: Colors.white,
+                    ),
                   ),
                   NotificationListener<ScrollNotification>(
                     onNotification: (notification) {
@@ -132,8 +133,7 @@ class _ResearchPageState extends State<ResearchPage> {
                       return false;
                     },
                     child: SingleChildScrollView(
-                      controller:
-                          _scrollController, // Keep inner scroll control
+                      controller: _scrollController,
                       child: ConstrainedBox(
                         constraints: BoxConstraints(
                           minHeight: MediaQuery.of(context).size.height,
@@ -152,17 +152,20 @@ class _ResearchPageState extends State<ResearchPage> {
                                           MediaQuery.of(context).size.height),
                                   Container(
                                     padding: const EdgeInsets.all(24),
-                                    color: Colors.black.withOpacity(0.85),
+                                    color:
+                                        Theme.of(context).colorScheme.surface,
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           topic.heading,
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                             fontSize: 32,
                                             fontWeight: FontWeight.bold,
-                                            color: Colors.white,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onPrimary,
                                           ),
                                         ),
                                         const SizedBox(height: 24),
@@ -175,19 +178,23 @@ class _ResearchPageState extends State<ResearchPage> {
                                               if (textItem.title != null) ...[
                                                 Text(
                                                   textItem.title!,
-                                                  style: const TextStyle(
+                                                  style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 18,
-                                                    color: Colors.white,
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .onPrimary,
                                                   ),
                                                 ),
                                                 const SizedBox(height: 8),
                                               ],
                                               Text(
                                                 textItem.content,
-                                                style: const TextStyle(
+                                                style: TextStyle(
                                                   fontSize: 16,
-                                                  color: Colors.white,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .onPrimary,
                                                   height: 1.8,
                                                 ),
                                                 textAlign: TextAlign.justify,
@@ -196,10 +203,12 @@ class _ResearchPageState extends State<ResearchPage> {
                                                 const SizedBox(height: 16),
                                                 Text(
                                                   textItem.list!.heading,
-                                                  style: const TextStyle(
+                                                  style: TextStyle(
                                                     fontSize: 20,
                                                     fontWeight: FontWeight.bold,
-                                                    color: Colors.white,
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .onPrimary,
                                                   ),
                                                 ),
                                                 const SizedBox(height: 12),
@@ -215,10 +224,13 @@ class _ResearchPageState extends State<ResearchPage> {
                                                           CrossAxisAlignment
                                                               .start,
                                                       children: [
-                                                        const Text(
+                                                        Text(
                                                           "•",
                                                           style: TextStyle(
-                                                            color: Colors.white,
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .colorScheme
+                                                                .onPrimary,
                                                             fontSize: 16,
                                                           ),
                                                         ),
@@ -227,11 +239,12 @@ class _ResearchPageState extends State<ResearchPage> {
                                                         Expanded(
                                                           child: Text(
                                                             item,
-                                                            style:
-                                                                const TextStyle(
+                                                            style: TextStyle(
                                                               fontSize: 16,
-                                                              color:
-                                                                  Colors.white,
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .colorScheme
+                                                                  .onPrimary,
                                                               height: 1.6,
                                                             ),
                                                           ),
@@ -250,7 +263,6 @@ class _ResearchPageState extends State<ResearchPage> {
                                 ],
                               );
                             }),
-                            // const SizedBox(height: 100),
                           ],
                         ),
                       ),

@@ -72,7 +72,7 @@ class _FooterState extends State<Footer> {
               borderRadius: BorderRadius.circular(8),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
+                  color: Theme.of(context).colorScheme.primary,
                   blurRadius: 4,
                   offset: const Offset(0, 2),
                 ),
@@ -121,7 +121,7 @@ class _FooterState extends State<Footer> {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
-      color: isDarkMode ? Colors.grey[900] : Colors.grey[100],
+      color: Theme.of(context).colorScheme.surface,
       padding: const EdgeInsets.symmetric(vertical: 32),
       child: Column(
         children: [
@@ -133,7 +133,7 @@ class _FooterState extends State<Footer> {
           ),
           const SizedBox(height: 16),
           Text(
-            ' ${DateTime.now().year} Molecular Chaperone Lab. All rights reserved.',
+            ' ${DateTime.now().year} Mitochondrial Biology Lab. All rights reserved.',
             style: TextStyle(
               color: isDarkMode ? Colors.grey[300] : Colors.grey[700],
               fontSize: 14,

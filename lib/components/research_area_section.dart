@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pdslab/assets/data/research-area/research_area_model.dart';
+import 'package:pdslab/components/glass_container.dart';
 
 class ResearchAreaSection extends StatefulWidget {
   const ResearchAreaSection({super.key});
@@ -16,7 +17,7 @@ class _ResearchAreaSectionState extends State<ResearchAreaSection> {
   String? error;
   final ScrollController _scrollController = ScrollController();
   bool _isAutoScrolling = false;
-  double _scrollSpeed = 1.0;
+  final double _scrollSpeed = 1.0;
 
   @override
   void initState() {
@@ -85,29 +86,46 @@ class _ResearchAreaSectionState extends State<ResearchAreaSection> {
   }
 
   Widget _buildResearchCard(ResearchAreaModel area) {
-    return Container(
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
+    return SizedBox(
       width: 350, // Increased width for better text display
-      margin: const EdgeInsets.all(8),
-      child: Card(
-        clipBehavior: Clip.antiAlias,
-        elevation: 4,
+      child: GlassContainer(
+        margin: const EdgeInsets.all(8),
+        borderRadius: BorderRadius.circular(12),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        borderColor: isDarkMode ? Colors.grey[800] : Colors.grey[300],
+        opacity: isDarkMode ? 0.15 : 0.7,
+        blur: isDarkMode ? 15 : 10,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.asset(
-              area.imgSrc,
-              height: 200,
-              width: double.infinity,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return Container(
-                  height: 200,
-                  color: Colors.grey[300],
-                  child: const Center(
-                    child: Icon(Icons.image_not_supported, size: 50),
-                  ),
-                );
-              },
+            ClipRRect(
+              borderRadius:
+                  const BorderRadius.vertical(top: Radius.circular(12)),
+              child: Image.asset(
+                area.imgSrc,
+                height: 200,
+                width: double.infinity,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    height: 200,
+                    color:
+                        Theme.of(context).colorScheme.surface.withOpacity(0.5),
+                    child: Center(
+                      child: Icon(
+                        Icons.image_not_supported,
+                        size: 50,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSurface
+                            .withOpacity(0.5),
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(16),
@@ -154,41 +172,48 @@ class _ResearchAreaSectionState extends State<ResearchAreaSection> {
       return const Center(child: Text('No research areas found.'));
     }
 
-    // Create a list that repeats the cards three times for smooth infinite scrolling
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final List<ResearchAreaModel> extendedList = [
       ...researchAreas,
       ...researchAreas,
       ...researchAreas,
     ];
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(16),
-          child: Text(
-            'Research Areas',
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+    return GlassContainer(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      borderRadius: BorderRadius.circular(12),
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      borderColor: isDarkMode ? Colors.grey[800] : Colors.grey[300],
+      opacity: isDarkMode ? 0.1 : 0.5,
+      blur: isDarkMode ? 20 : 15,
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Text(
+              'Research Areas',
+              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
           ),
-        ),
-        SizedBox(
-          height: 500,
-          child: MouseRegion(
-            onEnter: (_) => _startAutoScroll(),
-            onExit: (_) => _stopAutoScroll(),
-            child: SingleChildScrollView(
-              controller: _scrollController,
-              scrollDirection: Axis.horizontal,
-              physics: const NeverScrollableScrollPhysics(),
-              child: Row(
-                children: extendedList.map(_buildResearchCard).toList(),
+          SizedBox(
+            height: 500,
+            child: MouseRegion(
+              onEnter: (_) => _startAutoScroll(),
+              onExit: (_) => _stopAutoScroll(),
+              child: SingleChildScrollView(
+                controller: _scrollController,
+                scrollDirection: Axis.horizontal,
+                physics: const NeverScrollableScrollPhysics(),
+                child: Row(
+                  children: extendedList.map(_buildResearchCard).toList(),
+                ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

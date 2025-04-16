@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:pdslab/components/glass_container.dart';
 
 class ModelSection extends StatefulWidget {
   const ModelSection({super.key});
@@ -112,6 +113,7 @@ class _ModelSectionState extends State<ModelSection> {
 
   Widget _buildCollage(List<String> images) {
     return Container(
+      color: Theme.of(context).colorScheme.surface.withOpacity(0.1),
       height: 400,
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
@@ -120,7 +122,7 @@ class _ModelSectionState extends State<ModelSection> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(12),
                 child: Image.asset(
                   path,
                   height: 400,
@@ -130,11 +132,21 @@ class _ModelSectionState extends State<ModelSection> {
                     return Container(
                       height: 400,
                       decoration: BoxDecoration(
-                        color: Colors.grey[300],
-                        borderRadius: BorderRadius.circular(8),
+                        color: Theme.of(context)
+                            .colorScheme
+                            .surface
+                            .withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(12),
                       ),
-                      child: const Center(
-                        child: Icon(Icons.image_not_supported, size: 50),
+                      child: Center(
+                        child: Icon(
+                          Icons.image_not_supported,
+                          size: 50,
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withOpacity(0.5),
+                        ),
                       ),
                     );
                   },
@@ -165,14 +177,18 @@ class _ModelSectionState extends State<ModelSection> {
         .expand((x) => x)
         .toList();
 
-    return Container(
-      color: isDarkMode ? Colors.grey[900] : Colors.grey[100],
-      padding: const EdgeInsets.symmetric(vertical: 32),
+    return GlassContainer(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      borderRadius: BorderRadius.circular(12),
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      borderColor: isDarkMode ? Colors.grey[800] : Colors.grey[300],
+      opacity: isDarkMode ? 0.1 : 0.5,
+      blur: isDarkMode ? 20 : 15,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 16, bottom: 24),
+            padding: const EdgeInsets.only(left: 24, top: 24, bottom: 24),
             child: Text(
               'Our Models',
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
@@ -200,31 +216,45 @@ class _ModelSectionState extends State<ModelSection> {
                   ),
                   Positioned(
                     left: 8,
-                    child: IconButton(
-                      onPressed: () {
-                        _pageController.previousPage(
-                          duration: const Duration(milliseconds: 800),
-                          curve: Curves.easeInOut,
-                        );
-                      },
-                      icon: Icon(
-                        Icons.arrow_back_ios,
-                        color: isDarkMode ? Colors.grey[300] : Colors.grey[700],
+                    child: GlassContainer(
+                      margin: EdgeInsets.zero,
+                      borderRadius: BorderRadius.circular(20),
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      opacity: isDarkMode ? 0.15 : 0.7,
+                      blur: isDarkMode ? 15 : 10,
+                      child: IconButton(
+                        onPressed: () {
+                          _pageController.previousPage(
+                            duration: const Duration(milliseconds: 800),
+                            curve: Curves.easeInOut,
+                          );
+                        },
+                        icon: Icon(
+                          Icons.arrow_back_ios,
+                          color: Theme.of(context).colorScheme.onPrimary,
+                        ),
                       ),
                     ),
                   ),
                   Positioned(
                     right: 8,
-                    child: IconButton(
-                      onPressed: () {
-                        _pageController.nextPage(
-                          duration: const Duration(milliseconds: 800),
-                          curve: Curves.easeInOut,
-                        );
-                      },
-                      icon: Icon(
-                        Icons.arrow_forward_ios,
-                        color: isDarkMode ? Colors.grey[300] : Colors.grey[700],
+                    child: GlassContainer(
+                      margin: EdgeInsets.zero,
+                      borderRadius: BorderRadius.circular(20),
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      opacity: isDarkMode ? 0.15 : 0.7, // Fixed opacity value
+                      blur: isDarkMode ? 15 : 10,
+                      child: IconButton(
+                        onPressed: () {
+                          _pageController.nextPage(
+                            duration: const Duration(milliseconds: 800),
+                            curve: Curves.easeInOut,
+                          );
+                        },
+                        icon: Icon(
+                          Icons.arrow_forward_ios,
+                          color: Theme.of(context).colorScheme.onPrimary,
+                        ),
                       ),
                     ),
                   ),
@@ -234,15 +264,20 @@ class _ModelSectionState extends State<ModelSection> {
           ),
           const SizedBox(height: 20),
           Center(
-            child: SmoothPageIndicator(
-              controller: _pageController,
-              count: folders.length,
-              effect: WormEffect(
-                dotHeight: 8,
-                dotWidth: 8,
-                spacing: 8,
-                activeDotColor: Theme.of(context).primaryColor,
-                dotColor: isDarkMode ? Colors.grey[700]! : Colors.grey[400]!,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 16),
+              child: SmoothPageIndicator(
+                controller: _pageController,
+                count: folders.length,
+                effect: WormEffect(
+                  dotHeight: 8,
+                  dotWidth: 8,
+                  spacing: 8,
+                  activeDotColor: Theme.of(context).colorScheme.secondary,
+                  dotColor: isDarkMode
+                      ? Colors.grey[700]!.withOpacity(0.5)
+                      : Colors.grey[400]!.withOpacity(0.5),
+                ),
               ),
             ),
           ),

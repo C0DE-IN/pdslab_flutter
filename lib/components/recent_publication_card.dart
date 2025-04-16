@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pdslab/assets/data/publication/publication_model.dart';
+import 'package:pdslab/components/glass_container.dart';
 
 class RecentPublicationCard extends StatefulWidget {
   final Article article;
@@ -164,17 +165,20 @@ class _RecentPublicationCardState extends State<RecentPublicationCard> {
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
-    return Card(
-      elevation: 4,
+    return GlassContainer(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // Buttons row at the top
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
+      borderRadius: BorderRadius.circular(12),
+      backgroundColor: Theme.of(context).colorScheme.primary,
+      borderColor: isDarkMode ? Colors.grey[800] : Colors.grey[300],
+      opacity: isDarkMode ? 0.15 : 0.7,
+      blur: isDarkMode ? 15 : 10,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 if (widget.article.highlight != null)
@@ -194,50 +198,48 @@ class _RecentPublicationCardState extends State<RecentPublicationCard> {
                   )
               ],
             ),
-          ),
-          // Content area with adaptive height
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Title
-                Text(
-                  _safeSubstring(widget.article.title, titleIndex),
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                ),
-                const SizedBox(height: 8),
-                // Authors
-                Text(
-                  _safeSubstring(
-                      widget.article.authors.join(', '), authorsIndex),
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: isDarkMode ? Colors.grey[300] : Colors.grey[700],
-                      ),
-                ),
-                const SizedBox(height: 8),
-                // Journal and Issue
-                InkWell(
-                  onTap: _launchURL,
-                  child: Text(
-                    _safeSubstring(
-                      '${widget.article.journal}, ${widget.article.issue}',
-                      journalIndex,
-                    ),
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          fontStyle: FontStyle.italic,
-                          color:
-                              isDarkMode ? Colors.blue[300] : Colors.blue[900],
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    _safeSubstring(widget.article.title, titleIndex),
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
                   ),
-                ),
-              ],
+                  const SizedBox(height: 8),
+                  Text(
+                    _safeSubstring(
+                        widget.article.authors.join(', '), authorsIndex),
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color:
+                              isDarkMode ? Colors.grey[300] : Colors.grey[700],
+                        ),
+                  ),
+                  const SizedBox(height: 8),
+                  InkWell(
+                    onTap: _launchURL,
+                    child: Text(
+                      _safeSubstring(
+                        '${widget.article.journal}, ${widget.article.issue}',
+                        journalIndex,
+                      ),
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            fontStyle: FontStyle.italic,
+                            color: isDarkMode
+                                ? Colors.blue[300]
+                                : Colors.blue[900],
+                            fontWeight: FontWeight.bold,
+                          ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

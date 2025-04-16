@@ -55,6 +55,25 @@ class Individual extends StatelessWidget {
     return articles;
   }
 
+  Future<List<Article>> _loadPublications() async {
+    final String response = await rootBundle
+        .loadString('lib/assets/data/publication/publication_data.json');
+    final List<dynamic> jsonData = json.decode(response);
+
+    // Get publications across years until we have 5
+    List<Article> allRecentArticles = [];
+    for (var yearData in jsonData) {
+      final publication = PublicationModel.fromJson(yearData);
+      allRecentArticles.addAll(publication.articles);
+      if (allRecentArticles.length >= 5) {
+        break;
+      }
+    }
+
+    // Take the first 5 articles (or all if less than 5)
+    return allRecentArticles.take(5).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -225,8 +244,7 @@ class Individual extends StatelessWidget {
         } else {
           final piData = snapshot.data!;
           return FutureBuilder<List<Article>>(
-            future: _loadArticlesForPerson(
-                piData.name), // Use PI's name as identifier
+            future: _loadPublications(), // Use PI's name as identifier
             builder: (context, pubSnapshot) {
               if (pubSnapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
@@ -288,41 +306,61 @@ class Individual extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const Text('Research Summary:',
-                                    style: TextStyle(fontSize: 20)),
+                                    style: TextStyle(fontSize: 24)),
                                 const SizedBox(height: 16),
                                 ...piData.summary!.map((content) {
                                   return Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      ...content.text.map((text) => Text(text)),
-                                      const SizedBox(height: 16),
+                                      ...content.text.map((text) => Text(text,
+                                          textAlign: TextAlign.justify,
+                                          style:
+                                              const TextStyle(fontSize: 18))),
+                                      const SizedBox(height: 20),
                                       if (content.list != null)
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            DataTable(
-                                              columns: const [
-                                                DataColumn(
-                                                    label: Text('Highlights')),
+                                        Center(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(16.0),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                DataTable(
+                                                  border: TableBorder.all(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .onSurface,
+                                                  ),
+                                                  columns: const [
+                                                    DataColumn(
+                                                        label: Text(
+                                                            'Highlights',
+                                                            style: TextStyle(
+                                                                fontSize: 18))),
+                                                  ],
+                                                  rows: content.list!.array!
+                                                      .map((item) => DataRow(
+                                                            cells: [
+                                                              DataCell(
+                                                                  Text(item)),
+                                                            ],
+                                                          ))
+                                                      .toList(),
+                                                ),
+                                                const SizedBox(height: 16),
                                               ],
-                                              rows: content.list!.array!
-                                                  .map((item) => DataRow(
-                                                        cells: [
-                                                          DataCell(Text(item)),
-                                                        ],
-                                                      ))
-                                                  .toList(),
                                             ),
-                                            const SizedBox(height: 16),
-                                          ],
+                                          ),
                                         ),
                                       if (content.imgSrc != null)
-                                        Image.asset(
-                                          content.imgSrc!,
-                                          fit: BoxFit.fitWidth,
-                                          alignment: Alignment.topCenter,
+                                        Center(
+                                          child: Image.asset(
+                                            content.imgSrc!,
+                                            fit: BoxFit.fitWidth,
+                                            alignment: Alignment.topCenter,
+                                          ),
                                         ),
                                     ],
                                   );
@@ -332,6 +370,82 @@ class Individual extends StatelessWidget {
                           ),
                         ),
                       const SizedBox(height: 16),
+                      if (piData.awards != null && piData.awards!.isNotEmpty)
+                        Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Awards and Recognitions:',
+                                  style: TextStyle(fontSize: 24),
+                                ),
+                                const SizedBox(height: 16),
+                                SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: DataTable(
+                                    border: TableBorder.all(
+                                      color:
+                                          Theme.of(context).colorScheme.outline,
+                                      width: 1,
+                                    ),
+                                    columns: const [
+                                      DataColumn(
+                                        label: Text(
+                                          'Year',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18,
+                                          ),
+                                        ),
+                                      ),
+                                      DataColumn(
+                                        label: Text(
+                                          'Award',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18,
+                                          ),
+                                        ),
+                                      ),
+                                      DataColumn(
+                                        label: Text(
+                                          'From',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                    rows: piData.awards!
+                                        .map((award) => DataRow(
+                                              cells: [
+                                                DataCell(Text(
+                                                  award.year,
+                                                  style: const TextStyle(
+                                                      fontSize: 16),
+                                                )),
+                                                DataCell(Text(
+                                                  award.name,
+                                                  style: const TextStyle(
+                                                      fontSize: 16),
+                                                )),
+                                                DataCell(Text(
+                                                  award.from,
+                                                  style: const TextStyle(
+                                                      fontSize: 16),
+                                                )),
+                                              ],
+                                            ))
+                                        .toList(),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       // Publications section using _buildArticleCard
                       if (articles.isNotEmpty)
                         Card(
