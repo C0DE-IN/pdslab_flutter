@@ -130,9 +130,7 @@ class _NavBarState extends ConsumerState<NavBar> {
                       });
                       context.go(destinations[index].path);
                     },
-                    labelType: width < 800
-                        ? NavigationRailLabelType.none
-                        : NavigationRailLabelType.all,
+                    labelType: NavigationRailLabelType.all,
                     useIndicator: true,
                     indicatorColor: Theme.of(context).colorScheme.secondary,
                     destinations: destinations

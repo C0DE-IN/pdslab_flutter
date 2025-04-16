@@ -1,11 +1,11 @@
 {
-    "name": "pdslab",
-    "short_name": "pdslab",
+    "name": "Mitochondrial Biology Lab",
+    "short_name": "MBL IISc",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#FFFFFF",
+    "theme_color": "#1E2C3D",
+    "description": "Website for the Mitochondrial Biology Lab at Indian Institute of Science.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

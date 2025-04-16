@@ -1,5 +1,5 @@
 name: pdslab
-description: "A new Flutter project."
+description: "Website for the Mitochondrial Biology Lab at Indian Institute of Science."
 publish_to: 'none'
 
 version: 1.0.0+1
@@ -13,28 +13,29 @@ dependencies:
     sdk: flutter
   flutter_web_plugins:
     sdk: flutter
-  go_router: ^14.2.3
+  go_router: ^14.0.0
   provider: ^6.1.2
   google_fonts: ^6.2.1
-  flutter_svg: ^2.0.16
-  freezed: ^2.5.7
-  freezed_annotation: ^2.4.4
-  riverpod_generator: ^2.6.3
-  riverpod_annotation: ^2.6.1
-  json_serializable: ^6.9.0
-  cupertino_icons: ^1.0.8
+  flutter_svg: ^2.0.10
+  freezed: ^2.4.7
+  freezed_annotation: ^2.4.1
+  json_annotation: ^4.8.1
+  riverpod_generator: ^2.4.0
+  riverpod_annotation: ^2.3.5
+  json_serializable: ^6.7.1
+  cupertino_icons: ^1.0.6
   path: ^1.9.0
-  url_launcher: ^6.2.4
+  url_launcher: ^6.2.5
   smooth_page_indicator: ^1.1.0
-  web: ^1.1.0
-  shared_preferences: ^2.5.1
-  flutter_riverpod: ^2.6.1
+  web: ^0.5.1
+  shared_preferences: ^2.2.2
+  flutter_riverpod: ^2.5.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  build_runner: ^2.4.13
-  flutter_lints: ^4.0.0
+  build_runner: ^2.4.8
+  flutter_lints: ^3.0.1
 
 flutter:
   uses-material-design: true
@@ -81,24 +82,3 @@ flutter:
     - lib/assets/images/gallery/official_events/2021/defence/abhishek/
     - lib/assets/images/gallery/official_events/2022/defence/tejashree/
     - lib/assets/images/gallery/official_events/2022/defence/vinaya/
-  
-
-  # To add custom fonts to your application, add a fonts section here,
-  # in this "flutter" section. Each entry in this list should have a
-  # "family" key with the font family name, and a "fonts" key with a
-  # list giving the asset and other descriptors for the font. For
-  # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
-  # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/to/font-from-package
