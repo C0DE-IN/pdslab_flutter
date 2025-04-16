@@ -10,6 +10,9 @@ import 'package:pdslab/pages/gallery.dart';
 import 'package:pdslab/pages/contact.dart';
 import 'package:pdslab/pages/individual.dart';
 import 'package:pdslab/components/nav_bar.dart';
+import 'package:pdslab/services/secure_navigation_middleware.dart';
+import 'dart:html' as html;
+import 'services/security_service.dart';
 
 class AppRoutes {
   static const String home = '/';
@@ -80,7 +83,50 @@ final Map<String, PageMetadata> pageMetadata = {
   ),
 };
 
+class SecurityMiddleware extends NavigatorObserver {
+  @override
+  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    _applySecurity();
+    super.didPush(route, previousRoute);
+  }
+
+  @override
+  void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
+    _applySecurity();
+    super.didReplace(newRoute: newRoute, oldRoute: oldRoute);
+  }
+
+  void _applySecurity() {
+    if (kIsWeb) {
+      // Prevent clickjacking
+      html.window.document.documentElement?.style
+          .setProperty('pointer-events', 'auto');
+
+      // Clear sensitive data from localStorage on navigation
+      const sensitiveKeys = ['auth_token', 'user_data'];
+      for (var key in sensitiveKeys) {
+        if (!html.window.localStorage.containsKey(key)) continue;
+        if (_isSessionExpired()) {
+          html.window.localStorage.remove(key);
+        }
+      }
+    }
+  }
+
+  bool _isSessionExpired() {
+    final lastActivity = html.window.localStorage['last_activity'];
+    if (lastActivity == null) return true;
+
+    final lastActivityTime = DateTime.tryParse(lastActivity);
+    if (lastActivityTime == null) return true;
+
+    // Session timeout after 24 hours of inactivity
+    return DateTime.now().difference(lastActivityTime).inHours >= 24;
+  }
+}
+
 final GoRouter _router = GoRouter(
+  observers: [SecurityMiddleware(), SecureNavigationMiddleware()],
   routes: [
     ShellRoute(
       builder: (context, state, child) {
@@ -187,6 +233,37 @@ final GoRouter _router = GoRouter(
       ],
     ),
   ],
+  redirect: (BuildContext context, GoRouterState state) {
+    // Add security validation for all routes
+    if (kIsWeb) {
+      final path = state.uri.path;
+      if (path.contains('..') || path.contains('//')) {
+        return '/'; // Redirect to home on suspicious paths
+      }
+
+      // Validate query parameters
+      final securityService = SecurityService();
+      final params = state.uri.queryParameters;
+      if (params.isNotEmpty) {
+        for (final param in params.values) {
+          if (!securityService.sanitizeUrlParam(param).contains(param)) {
+            return '/'; // Redirect to home on suspicious query parameters
+          }
+        }
+      }
+    }
+    return null; // No redirect needed
+  },
+  errorBuilder: (context, state) {
+    return Scaffold(
+      body: Center(
+        child: Text(
+          'Page not found',
+          style: Theme.of(context).textTheme.headlineMedium,
+        ),
+      ),
+    );
+  },
 );
 
 GoRouter createRouter() {

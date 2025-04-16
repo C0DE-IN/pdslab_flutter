@@ -6,16 +6,16 @@ import 'package:pdslab/components/background_container.dart';
 import 'package:pdslab/providers/theme_provider.dart';
 import 'package:pdslab/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:pdslab/web_config.dart';
 
 final _router = createRouter();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  usePathUrlStrategy();
+  await SharedPreferences.getInstance();
 
-  if (kIsWeb) {
-    usePathUrlStrategy();
-    await SharedPreferences.getInstance();
-  }
+  WebConfig.initializeWeb();
 
   runApp(const ProviderScope(child: MyApp()));
 }
