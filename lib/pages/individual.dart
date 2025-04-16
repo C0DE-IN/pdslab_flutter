@@ -192,6 +192,7 @@ class Individual extends StatelessWidget {
                                   (text) => Padding(
                                     padding: const EdgeInsets.only(bottom: 8.0),
                                     child: Text(
+                                      textAlign: TextAlign.justify,
                                       text,
                                       style: const TextStyle(fontSize: 16),
                                     ),

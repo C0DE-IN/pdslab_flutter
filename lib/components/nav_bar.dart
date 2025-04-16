@@ -71,7 +71,7 @@ class _NavBarState extends ConsumerState<NavBar> {
                   Flexible(
                     child: FittedBox(
                       fit: BoxFit.scaleDown,
-                      alignment: Alignment.centerLeft,
+                      alignment: Alignment.center,
                       child: GradientText(
                         text: widget.title,
                         startColor: Colors.pink,
@@ -81,6 +81,7 @@ class _NavBarState extends ConsumerState<NavBar> {
                   ),
                   const SizedBox(height: 4),
                   Text(
+                    maxLines: 2,
                     'Dept. of Biochemistry, Indian Institute of Science, Bangalore',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -88,7 +89,7 @@ class _NavBarState extends ConsumerState<NavBar> {
                       fontSize: width < 600 ? 14 : 16,
                     ),
                     overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.left,
+                    textAlign: TextAlign.center,
                   ),
                 ],
               ),
@@ -121,6 +122,7 @@ class _NavBarState extends ConsumerState<NavBar> {
                   opacity: isDarkMode ? 0.15 : 0.7,
                   blur: isDarkMode ? 15 : 10,
                   child: NavigationRail(
+                    backgroundColor: Theme.of(context).colorScheme.primary,
                     minWidth: 72,
                     minExtendedWidth: 180,
                     selectedIndex: currentPageIndex,

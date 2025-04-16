@@ -141,6 +141,7 @@ class _ResearchAreaSectionState extends State<ResearchAreaSection> {
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                   child: Text(
+                    textAlign: TextAlign.justify,
                     area.text,
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),

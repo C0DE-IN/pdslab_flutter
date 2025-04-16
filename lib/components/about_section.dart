@@ -90,6 +90,7 @@ class _AboutSectionState extends State<AboutSection> {
                   padding: const EdgeInsets.only(bottom: 16),
                   child: Text(
                     paragraph,
+                    textAlign: TextAlign.justify,
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           height: 1.6,
                           color: Theme.of(context).colorScheme.onSurface,

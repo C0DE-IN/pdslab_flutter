@@ -121,7 +121,7 @@ class _FooterState extends State<Footer> {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
-      color: Theme.of(context).colorScheme.surface,
+      color: Theme.of(context).colorScheme.primary,
       padding: const EdgeInsets.symmetric(vertical: 32),
       child: Column(
         children: [
