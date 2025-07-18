@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="/">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="Mitochondrial Biology Lab at Indian Institute of Science, focusing on cutting-edge research in biochemistry and cell biology.">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Mitochondrial Biology Lab">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <!-- <link rel="icon" type="image/png" href="favicon.png"/> -->
+  <link rel="icon" href="lib/assets/logos/iisc-logo.svg" type="image/svg+xml">
+
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.gstatic.com https://*.google.com https://*.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https: https://*.google.com https://*.googleapis.com https://*.gstatic.com; connect-src 'self' https: https://www.gstatic.com https://*.google.com https://*.googleapis.com; worker-src 'self' blob:; frame-src 'self' https://*.google.com">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+  <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains">
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+
+  <title>Mitochondrial Biology Lab - IISc</title>
+  <link rel="manifest" href="manifest.json">
+
+  <style>
+    .loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      width: 100vw;
+      position: fixed;
+      background-color: #ffffff;
+      z-index: 9999;
+    }
+    .loading-content {
+      text-align: center;
+      font-family: sans-serif;
+    }
+    .loading-spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #3498db;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+
+  <script>
+    // The following is for handling direct URL access
+    (function() {
+      var pathname = window.location.pathname;
+      var search = window.location.search;
+      var hash = window.location.hash;
+      var baseHref = document.querySelector('base').getAttribute('href');
+      if (pathname !== baseHref && pathname !== baseHref + 'index.html') {
+        window.sessionStorage.setItem('initialPath', pathname + search + hash);
+      }
+    })();
+  </script>
+</head>
+<body>
+  <div id="loading" class="loading">
+    <div class="loading-content">
+      <div class="loading-spinner"></div>
+      <p>Loading application...</p>
+    </div>
+  </div>
+
+  <script>
+    // Initialize loader
+    window.addEventListener('load', function() {
+      var loading = document.getElementById('loading');
+      if(loading) {
+        window.setTimeout(function() {
+          if(loading.style.display !== 'none') {
+            console.warn('Application is taking longer than expected to load. Falling back to HTML renderer.');
+            // Force HTML renderer if loading takes too long
+            window.flutterWebRenderer = "html";
+            location.reload();
+          }
+        }, 10000); // 10 second timeout
+      }
+    });
+
+    // Configure Flutter web options
+    window.flutterWebRenderer = "canvaskit";
+    
+    // Handle CanvasKit loading error
+    window.addEventListener('error', function(e) {
+      if(e.target.src && e.target.src.includes('canvaskit')) {
+        console.warn('CanvasKit failed to load. Falling back to HTML renderer.');
+        window.flutterWebRenderer = "html";
+        location.reload();
+      }
+    }, true);
+  </script>
+
+  <script src="flutter_bootstrap.js" async></script>
+
+  <script>
+    // Remove loading screen once app is ready
+    window.addEventListener('flutter-first-frame', function() {
+      var loading = document.getElementById('loading');
+      if(loading) {
+        loading.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>

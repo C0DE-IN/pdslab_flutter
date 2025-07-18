@@ -1,0 +1,19 @@
+[
+    {
+        "headline": "Mitochondrial glycation, a critical factor for Parkinson’s disease progression",
+        "link": "https://biopatrika.com/2023/08/28/mitochondrial-glycation-parkinsons-progression/",
+        "logo": "lib/assets/logos/Biopatrika-logo.svg",
+        "id": "Biopatrika-logo",
+        "poster": "lib/assets/images/poster/gautam_biopatrika.webp",
+        "type": "blog"
+    },
+    {
+        "column": "HOME / NEWS / INDIA / KARNATAKA",
+        "headline": "Interaction between specific enzyme and protein channel plays crucial role in mitochondrial function: IISc study",
+        "place_date": "May 09, 2023 10:14 pm | Updated 10:14 pm IST - Bengaluru",
+        "link": "https://www.thehindu.com/news/national/karnataka/interaction-between-specific-enzyme-and-protein-channel-plays-crucial-role-in-mitochondrial-function-iisc-study/article66831027.ece",
+        "logo": "lib/assets/logos/thehindu-logo.svg",
+        "id": "the_hindu_logo",
+        "type": "paper"
+    }
+]

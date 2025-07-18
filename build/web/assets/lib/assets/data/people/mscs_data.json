@@ -1,0 +1,21 @@
+
+[
+    {
+        "name": "Shravya B",
+        "imgSrc": "lib/assets/images/people/shravya.webp",
+        "position": "Integrated PhD Student",
+        "email": "",
+        "credentials": [
+            "B.Sc. in Chemistry, Biotechnology, Microbiology from M.S Ramaiah College of Arts, Science and Commerce, Bangalore"
+        ]
+    },
+    {
+        "name": "Surya Kiran V J",
+        "imgSrc": "lib/assets/images/people/surya.webp",
+        "position": "Integrated PhD Student",
+        "email": "",
+        "credentials": [
+            "B.Sc. in Biochemistry, Botany, Microbiology from Government Science College Autonomous, Bangalore"
+        ]
+    }
+]

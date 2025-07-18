@@ -1,0 +1,21 @@
+ [
+    {
+        "name": "Vigneshwaran",
+        "imgSrc": "lib/assets/images/people/vicky.webp",
+        "position": "Project Associate II",
+        "email": "",
+        "credentials": [
+            "B.Sc in Biochemistry from Bharathidasan University, Trichy",
+            "M.Sc in Bioinformatics from Bharathidasan University, Trichy"
+        ]
+    },
+    {
+        "name": "Saravanaraja",
+        "imgSrc": "lib/assets/images/people/saravana.webp",
+        "position": "Project Associate II",
+        "email": "",
+        "credentials": [
+            "M.Tech in Bioinformatics from Bharathidasan University, Trichy"
+        ]
+    }
+]

@@ -1,0 +1,17 @@
+ [
+    {
+        "title":"Dr.",
+        "name": "Rachayeeta Deb",
+        "imgSrc": "lib/assets/images/people/rachayeeta.webp",
+        "position": "Post Doctoral Fellowship",
+        "email": "",
+        "credentials": [
+            "B.Tech in Biotechnology, West Bengal University of Technology (WBUT), Kolkata, India",
+            "M.Tech in Biotechnology, VIT University, Vellore, India",
+            "Ph.D. in Cell and Molecular Biology, IIT Guwahati, Assam, India"],
+        "summary": [
+            "Mitochondria are essential dynamic organelles whose proper functioning depends on the accurate and efficient import of mitochondrial proteins to their destined target compartments. Majority of the mitochondrial proteins are encoded by nuclear DNA and imported into respective compartments via distinct import pathways. Among them, the complex polytopic proteins with internal targeting signals are translocated from cytosol into the inner mitochondrial membrane through the carrier translocase TIM22 complex. Another important complex in the inner membrane is the respiratory chain complex or ETC complex which generates ATP through oxidative phosphorylation. Some of the subunits of this ETC complex are known to be encoded by mitochondrial genome. However, the process by which the subunits of the ETC complex are assembled in the inner membrane is still not known. Thus I would like to implement my understanding of yeast cell biology and organelle morphology to elucidate the precise role of the TIM22 complex in organizing the ETC complex and maintaining mitochondrial genome stability."],
+        "fellowships": "DBT RA"
+
+    }
+]
