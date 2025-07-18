@@ -55,6 +55,19 @@
       100% { transform: rotate(360deg); }
     }
   </style>
+
+  <script>
+    // The following is for handling direct URL access
+    (function() {
+      var pathname = window.location.pathname;
+      var search = window.location.search;
+      var hash = window.location.hash;
+      var baseHref = document.querySelector('base').getAttribute('href');
+      if (pathname !== baseHref && pathname !== baseHref + 'index.html') {
+        window.sessionStorage.setItem('initialPath', pathname + search + hash);
+      }
+    })();
+  </script>
 </head>
 <body>
   <div id="loading" class="loading">

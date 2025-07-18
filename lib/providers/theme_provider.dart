@@ -58,18 +58,18 @@ ThemeData lightMode = ThemeData(
     onTertiary: Color(0xFF8B1E3F), // Deep rose for text
 
     // Supporting colors
-    background: Color(0xFFFAFAFC), // Light gray background
-    onBackground: Color(0xFF1A1F36), // Deep blue-gray for text
+    // background: Color(0xFFFAFAFC), // Light gray background
+    // onBackground: Color(0xFF1A1F36), // Deep blue-gray for text
     surface: Color(0xFFF7FBFE), // Ice blue surface
     onSurface: Color(0xFF2D3B55), // Steel blue for text
-    surfaceVariant: Color(0xFFEDF4FF), // Light blue variant
+    // surfaceVariant: Color(0xFFEDF4FF), // Light blue variant
     onSurfaceVariant: Color(0xFF1B365D), // Navy for variant text
 
     error: Color(0xFFFF6B6B), // Soft red
     onError: Color(0xFF931111), // Deep red for text
   ),
   // Enhanced card theme
-  cardTheme: const CardTheme(
+  cardTheme: const CardThemeData(
     color: Color(0xFFFDFDFD),
     elevation: 2,
     surfaceTintColor: Color(0xFFFFFFFF),
@@ -97,18 +97,18 @@ ThemeData darkMode = ThemeData(
     onTertiary: Color(0xFFFFE4E4), // Soft pink for text
 
     // Supporting colors
-    background: Color(0xFF0A1221), // Very dark blue background
-    onBackground: Color(0xFFE6EBF5), // Light gray-blue for text
+    // background: Color(0xFF0A1221), // Very dark blue background
+    // onBackground: Color(0xFFE6EBF5), // Light gray-blue for text
     surface: Color(0xFF162032), // Dark blue surface
     onSurface: Color(0xFFF7FBFE), // Ice blue for text
-    surfaceVariant: Color(0xFF1E2C3D), // Deep blue-gray variant
+    // surfaceVariant: Color(0xFF1E2C3D), // Deep blue-gray variant
     onSurfaceVariant: Color(0xFFE2F1FF), // Ice blue for variant text
 
     error: Color(0xFFFF6B6B), // Soft red
     onError: Color(0xFFFFE4E4), // Soft pink for error text
   ),
   // Enhanced card theme
-  cardTheme: const CardTheme(
+  cardTheme: const CardThemeData(
     color: Color(0xFF1E2C3D),
     elevation: 4,
     surfaceTintColor: Color(0xFF253447),

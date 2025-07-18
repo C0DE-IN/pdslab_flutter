@@ -19,3 +19,36 @@ samples, guidance on mobile development, and a full API reference.
 sudo apt-get install webp
 
 for file in *.jpg *.jpeg *.png; do cwebp "$file" -o "${file%.*}.webp"; done
+
+## server config 
+For Nginx, add the following configuration to your server block in nginx.conf or your site configuration file:
+
+```nginx
+server {
+    listen 80;
+    server_name pdslab.biochem.iisc.ac.in;
+    root /path/to/your/flutter/web/app;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ /index.html;
+        add_header Cache-Control "no-cache";
+    }
+
+    # Optional: Configure caching for static assets
+    location /assets {
+        expires 1y;
+        add_header Cache-Control "public, no-transform";
+    }
+
+    # Optional: Configure caching for Flutter-specific files
+    location /flutter_service_worker.js {
+        expires 0;
+        add_header Cache-Control "no-cache";
+    }
+
+    location /main.dart.js {
+        expires 0;
+        add_header Cache-Control "no-cache";
+    }
+}
